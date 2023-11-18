@@ -8,13 +8,11 @@
 
   <!-- Third party -->
   <link rel="stylesheet" type="text/css" href="/styles/third_party/highlight.min.css" />
-  <link rel="stylesheet" type="text/css" href="/styles/third_party/highlightjs-copy.min.css" />
   <link rel="stylesheet" type="text/css" href="/styles/third_party/highlight_themes/atom-one-dark.css" />
   <script src="/scripts/third_party/pjax.min.js"></script>
   <script src="/scripts/third_party/quicklink.umd.min.js"></script>
   <script src="/scripts/third_party/jquery.min.js"> </script>
   <script src="/scripts/third_party/highlight/highlight.min.js"> </script>
-  <script src="/scripts/third_party/highlight/highlightjs-copy.min.js"> </script>
   <script src="/scripts/third_party/highlight/languages/rust.min.js"> </script>
   <script src="/scripts/third_party/highlight/languages/nix.min.js"> </script>
   <script src="/scripts/third_party/highlight/languages/haskell.min.js"> </script>
@@ -91,10 +89,8 @@
   <script src="/scripts/custom/toc.js"> </script>
   <script>
     hljs.highlightAll();
-    hljs.addPlugin(new CopyButtonPlugin());
     document.addEventListener('pjax:complete', () => {
       hljs.highlightAll();
-      hljs.addPlugin(new CopyButtonPlugin());
     });
   </script>
 </body>

@@ -118,7 +118,7 @@
 			<div class="text-center text-2xl">  目录|TOC </div>
 	    <ul class="list-none px-2 text-left">
 	    {% for h1 in page.toc %}
-					<li class="py-0 leading-normal animate-in fade-in slide-in-from-bottom duration-1000"> 
+					<li class="pb-0 leading-normal animate-in fade-in slide-in-from-bottom duration-1000"> 
 	            <a class="text-sm" href="#{{ h1.id | safe }}">{{ h1.title }}</a>
               {% for h2 in h1.children %}
 								<li class="py-0 leading-normal animate-in fade-in slide-in-from-bottom duration-1000"> 

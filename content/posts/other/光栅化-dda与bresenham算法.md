@@ -4,7 +4,9 @@ path = "posts/other/rasterization-dda-bresenham"
 date = 2022-12-26
 template = "page.html"
 +++
-关于 光栅化(rasterrization) 中的 DDA 与 Bresenham 两种算法
+
+> 关于 光栅化(rasterrization) 中的 DDA 与 Bresenham 两种算法
+
 <!-- more -->
 
 # 光栅化
