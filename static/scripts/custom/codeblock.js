@@ -1,10 +1,7 @@
 function codeblock() {
 
   const codeblockElements = document.querySelectorAll('pre code')
-  codeblockElements.forEach(codeblock => {
-
-    codeblock.setAttribute("style", "user-select: all;")
-    
+  codeblockElements.forEach(codeblock => {    
     const dot1 = document.createElement("div");
     const dot2 = document.createElement("div");
     const dot3 = document.createElement("div");
@@ -19,7 +16,7 @@ function codeblock() {
       navigator.clipboard.writeText(codeblock.textContent).then(async () => {
         copy_btn.innerText = "已复制"
         console.log('Content copied to clipboard');
-        setTimeout(async () => { copy_btn.innerText = "复制" }, 1500)
+        setTimeout(async () => { copy_btn.innerText = "复制" }, 1300)
       },() => {
         console.error('Failed to copy');
       });
@@ -59,9 +56,17 @@ function codeblock() {
       codeblock.parentNode.insertBefore(fileName, codeblock)
     }
 
-    if (fileName.classList.contains("fold")) {
+    const is_fold_open = fileName.classList.contains("fold-open");
+    const is_fold_close = fileName.classList.contains("fold-close");
+    const is_fold  = is_fold_open || is_fold_close;
+    if (is_fold) {
       const fold_btn = document.createElement("button");
-      fold_btn.innerHTML = "隐藏";
+      if (is_fold_open) {
+        fold_btn.innerHTML = "隐藏";
+      } else {
+        fold_btn.innerHTML = "展开";
+        codeblock.style.display = "none"
+      }
       fold_btn.classList.add("code-btn")
       fold_btn.onclick = function() {
         if (fold_btn.innerText == "隐藏") {
