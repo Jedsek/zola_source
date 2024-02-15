@@ -1,0 +1,16 @@
+{
+  "name": "Jedsek",
+  "short_name": "Jedsek",
+  "display": "standalone",
+  "start_url": "/",
+  "background_color": "#fff",
+  "description": "Jedsek's blog",
+  "icons": [
+    {
+      "src": "/images/avatar.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
+

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<div class="pl-4">
+  <div class="my-2 mx-2 h-screen">
+    <div class="opacity-90">
+      {{ section.content | safe }}
+    </div>
+  </div>
+</div>
+
+<script>
+var lis = document.getElementsByTagName("li");
+for (var i = 0; i < lis.length; i++) {
+  if (lis[i].innerHTML.toString().indexOf("<input")==0)  {
+    lis[i].style.listStyle = "none";
+    lis[i].style.paddingLeft = "3px";
+    lis[i].parentElement.style.paddingLeft = "2px";
+  }
+}
+</script>
+
+{% endblock content %}
