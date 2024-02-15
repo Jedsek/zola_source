@@ -1,8 +1,8 @@
 {
   "name": "Jedsek",
   "short_name": "Jedsek",
-  "display": "standalone",
-  "start_url": "/",
+  "display": "fullscreen",
+  "start_url": "/categories",
   "background_color": "#fff",
   "description": "Jedsek's blog",
   "icons": [
