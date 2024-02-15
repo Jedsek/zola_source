@@ -36,8 +36,7 @@ img[src*="#w50"] {
 }
 
 .icon-arrowup, .icon-sidebar {
-	font-size: 30px;
-  line-height: 1.6em;
+	font-size: 2.2rem;
 }
 
 .iconfont-wrapper {
@@ -74,13 +73,18 @@ td {
 
 .float-botton {
   position: fixed;
-  bottom: 20px;
-  right: 50px;
+  bottom: 2.6rem;
+  right: 3rem;
   border: 2px solid #ccc;
 	opacity: 0.5;
 }
 
 .float-botton-item {
+	display: flex;
+	justify-content:center;
+	align-items:center;
+	width: 3.3rem;
+	height: 3.3rem;
 	padding-left: 13px;
 	padding-right: 13px;
 }
@@ -93,8 +97,6 @@ td {
 	display: inline-block;
 	width: 2px;
 	background-color: #ccc;
-	margin-left: 0px;
-	margin-right: 0px;
 }
 
 .content p {
