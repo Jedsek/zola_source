@@ -29,6 +29,7 @@ Rust, 是一门高性能, 工具链友善, 类型严格显式的编程语言
 - [x] [rust中那些常见的错误](/posts/rust-common-errors) (随缘更新)
 - [x] [命令行 (clap-rs)](/posts/rust-clap/intro)
 - [x] [rust锈化终端世界 (工具介绍与插件开发)](/categories/rust-terminal-world)
+- [x] [rust中的柯里化函数与过程宏实现](/posts/rust-curried-function)
 - [ ] [GUI (gtk4/iced/relm4)](/categories/rust-gui)
 - [ ] [声明宏](/categories/rust-decl-macro)
 - [ ] [异步](/categories/rust-async)

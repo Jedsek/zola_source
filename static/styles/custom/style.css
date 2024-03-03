@@ -100,7 +100,7 @@ td {
 }
 
 .content p {
-	opacity: 0.88;
+	opacity: 0.84;
 }
 
 .toc * {
@@ -204,7 +204,7 @@ pre code span {
 
 code {
 	font-family: 'FiraCode';
-	color: cyan;
+	color: plum;
 }
 
 
@@ -280,7 +280,7 @@ blockquote {
 	margin-bottom: 10px;
 	padding: 0 15px;
 	font-weight: 450;
-	opacity: 0.7;
+	opacity: 0.66;
 }
 
 input[type="checkbox"] {
