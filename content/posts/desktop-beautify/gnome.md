@@ -751,3 +751,6 @@ home.file.".face".source = ./.face;
 
 大功告成!  我相信这是最最最最最全的一份 GNOME 入坑指南了  
 
+- - -
+
+下一篇: [Hyprland 入坑指南](/posts/desktop-beautify/hyprland)  

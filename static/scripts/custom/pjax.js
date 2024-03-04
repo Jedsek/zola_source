@@ -6,7 +6,7 @@ var pjax;
 document.addEventListener("DOMContentLoaded", function() {
   pjax = new Pjax({
     // elements: 'a[target!=_blank])',   // 拦截正常带链接的 a 标签
-    selectors: [".body", "title", ".content", ".toc"],
+    selectors: [".body", "title", ".content", ".toc", ".sidebar"],
     cacheBust: false,
   });
 });

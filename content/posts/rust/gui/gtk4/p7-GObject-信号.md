@@ -1,5 +1,5 @@
 +++
-title = "rust-gtk4-p7~> GObject: 信号"
+title = "rust-gtk4-p7~> GObject-信号"
 path = "posts/rust-gtk4/p7"
 date = 2022-12-10
 template = "page.html"
@@ -94,3 +94,8 @@ impl ButtonImpl for CustomButton {
 
 现在，你已经知道如何连接信号, 自定义信号  
 如果您想通知 GObject 的使用者, 某个事件已经发生，那么自定义信号特别有用
+
+- - - 
+
+上一篇: [p6~> GObject-属性](/posts/rust-gtk4/p6)  
+下一篇: [p8~> GObject-主事件循环](/posts/rust-gtk4/p8)  

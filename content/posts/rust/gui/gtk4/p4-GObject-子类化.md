@@ -1,5 +1,5 @@
 +++
-title = "rust-gtk4-p4~> GObject: 子类化"
+title = "rust-gtk4-p4~> GObject-子类化"
 path = "posts/rust-gtk4/p4"
 date = 2022-10-09
 template = "page.html"
@@ -264,3 +264,8 @@ fn obj(&self) -> crate::BorrowedObject<Self::Type>
 - 使用一个 widget, 其添加了自定义状态与覆写虚函数
 - 将 Rust 对象传递给要求参数是 GObject 的函数 (因为 gtk 不只是 Rust 的GUI框架, 还是其他许多语言的 GUI 框架)
 - 为某个对象添加 property 或 signal, 继承 glib 体系下的强大力量 (下面几节会讲)  
+
+- - -
+
+上一篇: [p3~> 创建窗口](/posts/rust-gtk4/p3)  
+下一篇: [p5~> GObject-通用类型](/posts/rust-gtk4/p5)  

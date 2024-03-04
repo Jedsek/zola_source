@@ -1,5 +1,5 @@
 +++
-title = "rust-gtk4-p3~> GObject: 内存管理"
+title = "rust-gtk4-p3~> GObject-内存管理"
 path = "posts/rust-gtk4/p3"
 date = 2022-03-30
 template = "page.html"
@@ -153,7 +153,7 @@ btn_dec.connect_clicked(|_| {
 我们已经成功实现了按下按钮后数字的加减, 并借由编译器之眼看到了危险, 利用标准库提供的类型, 让程序变得安全  
 要做的下一步, 就是让某按钮被按下后, 在另一个按钮上显示当前的数值  
 
-在本节开篇, 提及过Button的继承树: 它继承了GObject, 因此具有引用计数的特点, 相当于Rust中的Rc<T>  
+在本节开篇, 提及过Button的继承树: 它继承了GObject, 因此具有引用计数的特点, 相当于Rust中的 `Rc<T>`  
 因此, 可以复用对付num的方法, 来对付 btn_inc 与 btn_dec, 直接clone, 然后使用被clone出来的这个变量  
 
 但每次都需要手动clone, 创建新变量, 这是不是太麻烦了点?  
@@ -288,3 +288,8 @@ win活着, 导致 gtk_box 也会活着, gtk_box 活着, 导致 btn 也会活着
 尽可能保持 weak-ref, 就能够避免循环引用而导致内存泄漏了!  
 
 本节到此结束, 要鸽一会了, 我们下节见 :)
+
+- - - 
+
+上一篇: [p2~> 创建窗口](/posts/rust-gtk4/p2)  
+下一篇: [p4~> GObject-子类化](/posts/rust-gtk4/p4)  

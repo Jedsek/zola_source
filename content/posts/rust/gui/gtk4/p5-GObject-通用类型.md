@@ -1,5 +1,5 @@
 +++
-title = "rust-gtk4-p5~> GObject: 通用类型"
+title = "rust-gtk4-p5~> GObject-通用类型"
 path = "posts/rust-gtk4/p5"
 date = 2022-11-20
 template = "page.html"
@@ -164,3 +164,8 @@ fn main() {
 ```
 
 我们将在使用 `gio::Settings` 保存设置, 或使用 `gio::Action` 激活操作时，用到 `glib::Variant`
+
+- - -
+
+上一篇: [p4~> GObject-子类化](/posts/rust-gtk4/p4)  
+下一篇: [p6~> GObject-属性](/posts/rust-gtk4/p6)  

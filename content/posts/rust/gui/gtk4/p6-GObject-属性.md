@@ -1,5 +1,5 @@
 +++
-title = "rust-gtk4-p6~> GObject: 属性"
+title = "rust-gtk4-p6~> GObject-属性"
 path = "posts/rust-gtk4/p6"
 date = 2022-12-10
 template = "page.html"
@@ -303,3 +303,8 @@ fn build_ui(app: &Application) {
 ```
 
 当 `number` 属性的值发生更改后, 会在标准输出中, 打印按钮当前显示的数值  
+
+- - -
+
+上一篇: [p5~> GObject-通用属性](/posts/rust-gtk4/p5)  
+下一篇: [p7~> GObject-信号](/posts/rust-gtk4/p7)  

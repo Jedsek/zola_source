@@ -421,3 +421,6 @@ hyprctl dispatch workspace empty
 # 空闲
 
 
+- - -
+
+下一篇: [GNOME 入坑指南](/posts/desktop-beautify/gnome)  

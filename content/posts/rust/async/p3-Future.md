@@ -73,7 +73,7 @@ pub trait Future {
 
 - Output: 代表 Future 执行完毕后, 产出的值的类型   
 - poll: 所有执行操作都会放在该函数中, Runtime 会不断调用 poll 来推进 Future 的完成, 其返回值是枚举类型, 代表是否完成
-- Poll<T>: 枚举类型, 作为 poll 的返回值类型, 其变体有:  
+- Poll\<T\>: 枚举类型, 作为 poll 的返回值类型, 其变体有:  
 `Poll::Pending`: 指明该计算处于阻塞, 调度程序在该计算阻塞完毕后, 继续调用 poll(因为之后可能还会阻塞)  
 `Poll::Ready(T)`: 指明该计算执行完毕, 并产出一个类型为 T 的值   <br/>
 
@@ -283,3 +283,7 @@ async fn main() {
 }
 ```
 
+- - -
+
+上一篇: [p2~> 异步简介](/posts/rust-async/p2)  
+下一篇: [p4~> 状态的保存与变换](/posts/rust-async/p4)  

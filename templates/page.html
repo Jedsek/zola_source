@@ -1,18 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-<div class="my-6">
-  <div class="flex justify-center text-4xl" style="opacity:0.84;"> {{ page.title }} </div>
-  <div class="flex align-center text-sm hover:scale-125 duration-300 w-fit" style="color:#999;margin-top:14px;margin-left:auto;margin-right:auto">
+  <div class="p-4 flex justify-center text-4xl" style="opacity:0.84;"> {{ page.title }} </div>
+  <div class="p-4 flex align-center text-sm hover:scale-125 duration-300 w-fit" style="color:#999;margin-top:14px;margin-left:auto;margin-right:auto">
     <~~ 发表日期:{{ page.date }} | 本文词数:{{ page.word_count }}  |  预计阅读时间:{{ page.reading_time }}分钟 ~~>
   </div>
-</div>
 
-<div class="p-4">
-  {{ page.content | safe }}
-</div>
-
-<br>
-
+  <div class="p-4">
+		{{ page.content | safe }}
+  </div>
 {% endblock content %}
