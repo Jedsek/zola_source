@@ -9,7 +9,7 @@ template = "index.html"
 - 这里是我的个人博客, 我会在这里写一些东西, 比如编程, 代码, 小说, 游戏与番剧的语录与评测, 乱七八糟的想法等  
 - 点击 <a href="/categories" style="font-size:34px;">分类</a> 查看更多分类好的文章~~, 若为系列文章, 会使用 "系列/p1", "系列/p2" 等形式作为网址
 - 右下角是 目录(TOC) 哦, 如果碰见有标题的文章会自动生成, 支持 1 级与 2 级标题, 比如前往 [关于](/about) 试试? 
-- 本站使用 [zola](https://www.getzola.org) 生成静态站点, 从原先的 [hexo-next](https://theme-next.js.org) 迁移而来, 个人觉得简洁大气比较好
+- 本站使用 [zola](https://www.getzola.org) 生成静态站点, 从原先的 [hexo-next](https://theme-next.js.org) 迁移而来, 基本是从零开始手撸的， 个人觉得简洁大气比较好
 - 暂暂暂暂时还没有没有没有适配移动端, 为了您的体验请在电脑上观看
 
 <br>

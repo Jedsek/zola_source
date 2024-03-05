@@ -373,8 +373,13 @@ fn main() {
 请注意上面强调的是 如何使用, 假设你使用了 `move` 关键字, 强制拿走了被捕获变量的所有权  
 但是, 如果闭包内仍然只是以不可变借用的形式使用, 那么该闭包也仍然只是实现了 Fn  
 
-这三个 trait 有所谓的父子关系: `Fn: FnMut: FnOnce`, 代表实现 Fn 的前提是实现了 FnMut 与 FnOnce, 实现 FnMut 的前提是实现了 FnOnce  
-因为Fn与FnMut都是FnOnce的subtrait, 表示都基于FnOnce的基础上多了一些东西与功能, 所以只要求传入FnOnce的地方自然可以被Fn/FnMut所代替  
+因为一个被闭包以某种形式使用的变量, 其生命周期可能短于闭包本身, 所以我们有时候直接无脑取得闭包的所有权即可 (`move`)  
+
+这三个 trait 有所谓的父子关系: `Fn: FnMut: FnOnce`, 代表实现 `Fn` 的前提是实现了 `FnMut` 与 `FnOnce`, 对于 `FnMut` 同理  
+因为 `Fn`/`FnMut` 都是 `FnOnce` 的 `sub-trait`, 表示都基于 `FnOnce` 的基础上多了一些东西与功能  
+所以只要求传入 `FnOnce` 的地方, 自然可以被其 `sub-trait` 所代替  
+
+
 
 值得注意的是, 闭包的类型, 有点类似先前所述的 `function item` 里的 `unique identifier`, 因为每个闭包, 其实背后都生成了一个匿名结构体  
 这导致每个闭包的实际类型, 即使看起来一样, 其实不一样, 况且它还是个 trait  
@@ -386,6 +391,9 @@ fn generate_close() -> impl Fn(i32) -> i32 {
     |x| x + 1
 }
 ```
+
+如果你的函数其返回值是一个闭包, 那么应该优先返回 `Fn` (根据先前阐述过的 `sub-trait` 的事实 `Fn` 更加通用)  
+若闭包捕获了 `i32/f64/bool` 等基础类型并将其作为函数返回值时, 看起来就好像它们的所有权被拿走了, 但请别忘记 `Copy` 的存在  
 
 哟西, 大致的基础概念都会了  
 ~~既然你已经懂得了1+1=2了, 让我们开始证明哥德巴赫猜想吧!~~  
@@ -425,7 +433,7 @@ fn add(a: i32, b: i32, c: i32) -> i32 {
     a + b + c
 }
 
-fn add_curry(a: i32) -> impl Fn(i32) -> impl Fn(i32) -> i32 {
+fn add_curry(a: i32) -> impl FnOnce(i32) -> impl FnOnce(i32) -> i32 {
     move |b| move |c| a + b + c
 }
 
@@ -435,10 +443,20 @@ fn main() {
 }
 ```
 
-恭喜, 接下来让我们开始过程宏的概念吧, 了解什么是元编程, 了解rust过程宏的强大之处, 随后将任意类似这样的函数自动柯里化吧  
+先前在 [闭包](#bi-bao) 篇已经讲述过一些概念:  
 
-啊咧? 这一节结束的也太快了吧? 话说原来这么简单的几行代码就Ok了啊......  
-当然不可能啊小傻瓜!!, 其实还有一些坑, 不过我们将其放到后面再讲, 用宏先来实现一个初版的语法糖再说  
+- `move` 关键字强制取走被捕获变量的所有权  
+- `闭包/匿名函数` 本身到底自动实现了 `Fn` 还是 `FnMut`, 由闭包本身以何种形式使用 `被捕获的自由变量` 而决定  
+- `Fn: FnMut: FnOnce`, 前两者是 `FnOnce` 的 `sub-trait`, 比其多实现了一些东西, 所以 `impl FnOnce` 可以指代所有类型的闭包  
+
+`Note`:  
+将函数的返回值类型写作 `impl FnOnce` 时可以返回任意类型的闭包, 但当你将它用于比如 `map` 需要传入 `FnMut` 时会编译失败  
+因为编译器只知道它实现了 `FnOnce`, 即使你人脑编译时觉得没问题, 但编译器根据函数签名等来检查时并不认同你 (  
+
+接下来让我们开始过程宏的概念吧, 了解什么是元编程, 了解rust过程宏的强大之处, 随后将任意类似这样的函数自动柯里化吧  
+
+啊咧? 这一节结束的也太快了吧? 篇幅好短啊, 就跟 █(数据删除) 的 ██(数据删除) 一样短 (bushi  
+~~(当然不可能啊小傻瓜!!)~~ 其实还有一些坑, 不过我们将其放到后面再讲, 用宏先来实现一个初版的语法糖再说  
 
 - - -
 
@@ -529,7 +547,7 @@ fn add(a: i32, b: i32, c: i32) -> i32 {
     a + b + c
 }
 
-fn add_curry(a: i32) -> impl Fn(i32) -> impl Fn(i32) -> i32 {
+fn add_curry(a: i32) -> impl FnOnce(i32) -> impl FnOnce(i32) -> i32 {
     move |b| move |c| a + b + c
 }
 
@@ -699,12 +717,210 @@ pub fn curry(_attr: TokenStream, item: TokenStream) -> TokenStream {
 }
 ```
 
-现在, `test.rs` 中应该会出现编译错误, 因为现在生成的新函数的名字已经变成了 `new_add`  
+现在 `test.rs` 中应该会出现编译错误, 因为现在生成的新函数的名字已经变成了 `new_add`  
 
-让我们介绍在 `quote!` 宏中如何进行重复插值, 柯里化宏的实现需要依赖这个功能  
+而对于柯里化, 我们仅需在 TokenStream 被解析抽象为 `ItemFn` 的基础上, 修改它的 `函数签名` 与 `函数体` 即可:  
+
+- `函数签名`: 应该是 `fn f(#ident1: #type1) -> impl Fn(#type2) -> impl Fn(#type3) -> impl Fn(#type4) ... -> #typen` 的形式
+- `函数体`: 应该是 `move |#ident2| move |#ident3| ... #body` 的形式
+
+```rust
+#![feature(impl_trait_in_fn_trait_return)]
+
+fn add(a: i32) -> impl FnOnce(i32) -> impl FnOnce(i32) -> i32 {
+    move |b| move |c| a + b + c
+}
+```
+
+最明显的难点自然在于如何生成这样的形式, 先让我们完善解决问题的思路, 搭建出来基本的骨架结构:  
+
+```rust
+use proc_macro::TokenStream;
+use quote::quote;
+use syn::{parse_macro_input, Block, FnArg, ItemFn, Pat, ReturnType, Type};
+
+#[proc_macro_attribute]
+pub fn curry(_attr: TokenStream, item: TokenStream) -> TokenStream {
+    let parsed = parse_macro_input!(item as ItemFn);
+
+    let (body, sig, vis) = (parsed.block, parsed.sig, parsed.vis);
+
+    let fn_return_type = sig.output;
+    let (fn_ident, fn_args) = (sig.ident, sig.inputs);
+    let (impl_generics, _ty_generics, where_clause) = sig.generics.split_for_impl();
+
+    let mut arg_idents = vec![];
+    let mut arg_types = vec![];
+    for arg in fn_args.into_iter() {
+        let (ident, ty) = match arg {
+            FnArg::Typed(p) => (p.pat, p.ty),
+            FnArg::Receiver(_) => panic!("self parameter is unsupported now"),
+        };
+        arg_idents.push(ident);
+        arg_types.push(ty);
+    }
+
+    let return_type = generate_return_type(&arg_types, fn_return_type);
+    let body = generate_body(&arg_idents, &arg_types, body);
+    let first_arg_ident = arg_idents.first().unwrap();
+    let first_arg_type = arg_types.first().unwrap();
+
+    let new_fn = quote!(
+        #vis fn #fn_ident #impl_generics (#first_arg_ident: #first_arg_type) #return_type #where_clause {
+            #body
+        }
+    );
+
+    new_fn.into()
+}
+
+fn generate_return_type(
+    types: &[Box<Type>], 
+    fn_return_type: ReturnType,
+) -> proc_macro2::TokenStream {
+    todo!()
+}
+
+fn generate_body(
+    idents: &[Box<Pat>],
+    types: &[Box<Type>],
+    body: Box<Block>,
+) -> proc_macro2::TokenStream {
+    todo!()
+}
+```
+
+我们从 `函数签名` 中得到了 `函数体`, `返回类型`, 还有参数中的 `Pat(pattern, 模式)` (类型 `x: i32` 这样的形式为一对 `Pat`)  
+我们留下了两个空实现的函数, 通过传递进来 `切片(slice)` (诸如文中的 `&[Box<Type>]`) 来解决先前的两个难点  
+我们还通过 `quote!` 进行了插值, 在 `curry` 中生成新的 `TokenStream` 并返回  
+
+让我们先完成 `generate_return_type` 的部分并介绍 `quote!` 的 `重复插值(repeat)`:  
+
+```rust
+fn generate_return_type(
+    types: &[Box<Type>],
+    fn_return_type: ReturnType,
+) -> proc_macro2::TokenStream {
+    let last = types.len();
+    let range = 1..last;
+
+    let types = &types[range];
+
+    let fn_return_type = quote!(
+        #( -> impl Fn(#types) )* #fn_return_type
+    );
+
+    fn_return_type
+}
+```
+
+- 在 `quote!` 中的 `#(...)*` 里面会进行重复插值, 它接受一个元素实现了 `ToTokens` 的迭代器并重复地提取插入  
+- 先前说 `impl Fn` 比较通用, 所以这里使用了 `impl Fn` 作为返回值类型, 但请记住, 我们之后会将其更改, 原因与 `move` 移动所有权有关  
+
+同理, 让我们继续完成 `generate_body`:  
+
+```rust
+fn generate_body(
+    idents: &[Box<Pat>],
+    types: &[Box<Type>],
+    body: Box<Block>,
+) -> proc_macro2::TokenStream {
+    let last = types.len();
+    let range = 1..last;
+
+    let types = &types[range.clone()];
+    let idents = &idents[range];
+
+    let body = quote!(
+        #( move |#idents: #types| )* #body
+    );
+
+    body
+}
+```
+
+我们必须使用 `move` 关键字让闭包强制取得被捕获变量的所有权, 不然无法保证作为函数返回值传播的闭包, 其生命周期长于被引用的变量  
+
+在 `tests/test.rs` 中进行测试:  
+
+```rust
+#![feature(impl_trait_in_fn_trait_return)]
+use curried::curry;
+
+#[curry]
+fn add(a: i32, b: i32, c: i32) -> i32 {
+    a + b + c
+}
+
+#[test]
+fn test() {
+    let x = add(1)(2)(3);
+    assert_eq!(x, 6);
+}
+```
+
+看起来很不错, 但让我们再增加一些测试代码:  
+
+```rust
+#![feature(impl_trait_in_fn_trait_return)]
+use curried::curry;
+
+#[curry]
+fn concat_string(a: String, b: String, c: String) -> String {
+    format!("{a}{b}{c}")
+}
+
+#[test]
+fn test() {
+    let s1 = String::from("1");
+    let s2 = String::from("23");
+    let s3 = String::from("456");
+
+    let x = concat_string(s1)(s2)(s3);
+    assert_eq!(x, String::from("123456"));
+}
+```
+
+不幸的是, 这次会报错: 
+
+```txt
+error[E0507]: cannot move out of `a`, a captured variable in an `Fn` closure
+  --> tests/test.rs:10:1
+   |
+10 | #[curry]
+   | ^^^^^^^^
+   | |
+   | captured by this `Fn` closure
+   | `a` is moved here
+11 | fn concat_string(a: String, b: String, c: String) -> String {
+   |                  - captured outer variable
+12 |     format!("{a} {b} {c}")
+   |               -
+   |               |
+   |               variable moved due to use in closure
+   |               move occurs because `a` has type `String`, which does not implement the `Copy` trait
+```
+
+我们的函数体通过 `move` 捕获了变量的所有权, 先前不报错则是因为 `i32` 实现了 `Copy` 而 `String` 类型没有实现  
+因此我们得把 `impl Fn` 改成 `impl FnOnce`, 这样就不会有问题了  
+
+- - -
+
+# 特殊情况
+
+我们终于成功写出了一个可以对普通函数进行柯里化的属性宏了, 接下来让我们看看两种特殊情况  
+(说是特殊情况, 其实也是常见场景......)
+
+- 拥有泛型的函数
+- 迭代器的 `map` 中需求的 `FnMut` 约束  
 
 
+- - -
 
+# 参考资料
 
+- [references: function-item](https://doc.rust-lang.org/reference/types/function-item.html)
 
+- [stackoverflow: `impl Trait` 的不同使用导致了不同的 `opaque types`](https://stackoverflow.com/questions/76987201/distinct-uses-of-impl-trait-result-in-different-opaque-types-in-rust)
 
+- [stackoverflow: 当闭包作为函数返回值时, 被捕获的变量其类型必须实现 `Copy` 吗?](https://stackoverflow.com/questions/73461494/must-a-captured-variable-type-implement-copy-trait-when-closure-returned-as-outp)
