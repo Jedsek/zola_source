@@ -1,11 +1,11 @@
 +++
-title =  "rust-tui"
+title =  "rust中的柯里化函数与过程宏实现"
 path = "/posts/rust-curried-function"
 date = "2024-03-03"
 template = "page.html"
 +++
 
-> 了解什么是柯里化(curry), 手动地实现, 最后使用过程宏作为大杀器, 自动生成柯里化函数吧  
+> 学习闭包与函数, 了解柯里化的概念, 最后使用过程宏作为大杀器, 自动生成柯里化函数吧  
 
 <!-- more -->
 
@@ -14,11 +14,11 @@ template = "page.html"
 
 `Note`:  
 请注意, 此篇代码的目的并不在于写出一个 "完美地支持比如异步等各种函数的任何场景下的柯里化操作"  
-更多的是了解函数, 闭包, 柯里化, 过程宏, 元编程, 属于面向新手, 相对友好的 `过程宏 && 柯里化` 教程, 请多包容啦QAQ  
+更多的是了解函数, 闭包, 柯里化, 元编程, 过程宏的概念, 属于面向新手尽量做到友好的杂七杂八教程, 请多包容啦QAQ  
 
-# 成品
+# 成品演示
 
-完整代码放在下面了, 仅放在博客, 因为知乎等没有代码折叠功能, 直接去仓库看吧  
+完整代码放在下面了, 仅放在博客, 因为知乎没有代码折叠功能, 直接从知乎看的朋友们前往 [仓库](https://github.com/jedsek/curried) 查看完整代码吧  
 
 > 他们大喊着什么友情啊羁绊啊之后, 就一股脑地冲上来把函数给柯里化了口牙! ! ! 
 
@@ -109,6 +109,7 @@ pub fn curry(_attr: TokenStream, item: TokenStream) -> TokenStream {
         }
     );
 
+    // TokenStream 实现了 std::fmt::Display, 所以可以通过 `println!` 打印进行 debug
     println!("{}", new_fn);
 
     new_fn.into()
@@ -161,7 +162,9 @@ fn generate_body(
 }
 ```
 
-<figcaption class="fold-close"> tests/test.rs </figcaption>
+- 测试中的代码演示:  
+
+<figcaption> tests/test.rs </figcaption>
 
 ```rust
 use curried::{curry, to_curry};
@@ -215,9 +218,12 @@ fn map_curry() {
 # 函数
 
 为了方便之后实现柯里化时的讲解, 所以先提前将一些概念放在了前面, 首先让我们来看看函数  
+
+## 函数项与指针
+
 什么是函数? 传入参数, 进行操作, 然后返回结果, 仅此而已 (结果可以为空)  
 
-在 rust 中, 下面这种函数是最常见的, 也叫作 [function item](https://doc.rust-lang.org/reference/types/function-item.html)  
+在 rust 中, 下面这种 `fn` 开头的 `item` 是最常见的, 也叫作 [function-item](https://doc.rust-lang.org/reference/types/function-item.html)  
 
 <figcaption> 输出结果是个类似这样的指针的地址: 0x600cc581a4f0 </figcaption>
 
@@ -232,7 +238,13 @@ fn main() {
 }
 ```
 
-对于有泛型的函数, 其本身也有一个类型, 因为rust的泛型是 `异构翻译(heterogeneous-translation)`, 即会进行单态化生成具体类型  
+在上面的代码中, `fn foo` 与 `fn main` 都是一个 `item(项)`, 而变量 a 的类型是 `函数指针类型(function pointer type)`  
+
+## 优势 and 缺陷
+
+对于有泛型的函数, 其本身也有一个类型, 因为rust的泛型是 `异构翻译(heterogeneous-translation)`  
+因此, rust在编译时 会单态化每个泛型函数, 即为其生成具体类型  
+
 所以, 对于泛型函数, 我们必须手动指定其类型, 帮助编译器进行推导 (编译器 is not 卡密!):  
 
 ```rust
@@ -276,10 +288,11 @@ fn main() {
 
 rust 中的函数还是所谓的 `ZST(zero sized type)`, 即零大小类型, 因为其类型都是在编译期间就已经确定, 全是静态的  
 
-在 rust-reference 中的 [function item](https://doc.rust-lang.org/reference/types/function-item.html) 的末尾, 明确提过编译器对于这些fn类型都自动实现了哪些 trait:  
+在 rust-reference 中的 [function-item](https://doc.rust-lang.org/reference/types/function-item.html) 的末尾, 明确提过编译器对于这些fn类型都自动实现了哪些 trait:  
 Fn, FnMut, FnOnce, Copy, Clone, Send, Sync (前三个 trait 对应闭包, 我们马上就要讲到)  
 
 **但是, 但是啊, 但是! 这些类型有一个致命的缺陷, 那就是没有办法使用 outer 环境下的变量**  
+~~(好吧夸张了点, 其实这也不叫缺陷, 只是单纯的分工合作而已)~~  
 
 举个例子, 如果我们想这样做是不可以的, 因为引用的不是const也不是static, 而是用let修饰的局部变量:  
 
@@ -298,7 +311,12 @@ fn main() {
 
 # 闭包
 
+让我们开始讲解 `闭包(closure)` 吧, 这是本篇文章的重头戏之一  
+
+## 捕获自由变量
+
 最早实现 `闭包(closure)` 的语言是 `scheme`(lisp的两种主要方言之一), 其定义非常简单: `能够捕获与使用自由变量的函数`  
+在 rust 中, 闭包优于函数项的全部的用处与概念, 都围绕着 `捕获自由变量` 而展开  
 
 什么是 `自由变量`? 其实你在上一节的末尾已经见识过了, 让我们再把那部分的代码贴出来:  
 
@@ -311,7 +329,7 @@ fn main() {
 }
 ```
 
-让我们忽略先前的编译错误, 假设这部分代码可以成功编译, 随后基于这个假设开始阐述:  
+让我们忽略先前的编译错误, 并且假设这部分代码能成功编译:  
 
 在外层函数 main 中, 我们定义了a, 它是在 main 函数中产生的, 它的一切都被 main 函数所知晓, 所以对该外层函数来讲, a 是 `不自由/被约束` 的  
 但对于内层的函数 print_a 来讲, 变量a 即没有出现在参数的位置, 也不是在其函数体内产生的, 所以对于内层函数来讲, a 是 `自由` 的  
@@ -333,8 +351,8 @@ let h = |x| a + x
 h(10) // 20
 ```
 
-闭包相当有用, 运用场景很多, `而且具有不可替代的作用`, 这点等一会就要讲到  
-倘若没有闭包, 我们就得手动创建一个具体名字的函数, 声明其参数的类型, 但这么简单的工作直接生成一个匿名函数, 自动类型推导会更轻松:  
+闭包相当有用, 运用场景很多, 倘若没有闭包, 我们就得手动创建一个具体名字的函数, 并显式写出函数签名中的所有类型  
+对于可能只有一两行, 并且不在乎名字的函数, 我们不如干脆写成闭包:  
 
 ```rust
 fn main() {
@@ -347,44 +365,50 @@ fn main() {
 }
 ```
 
-我们也可以给诸如 map 这种函数传入一个闭包:  
+我们也可以给诸如 map 这种函数传入一个闭包, 这也叫作 `回调函数(callback)`, 表示将其交给别人来调用  
+在下面的代码中, 我们创建了一个闭包交给了 `map`, 而 `map` 则会调用用户传入的闭包  
 
 ```rust
 // [10, 20, 30]
 [1, 2, 3].map(|x| x * 10);
 ```
 
-我们这里仅仅把闭包当作一个普通的匿名函数, 并没有用到它捕获自由变量(或者说作用域环境内的局部变量)的能力  
-之前说过 `function item` 不能也不会捕获作用域内变量, 而闭包则在捕获时会分配内存存储值  
+在上面的代码中, 我们仅把闭包当作匿名函数使用, 并未用它捕获 `自由变量(或者说作用域内的局部变量)` 的能力  
+之前的 `function-item` 不会也不能捕获作用域内变量, 而闭包可以, 让我们接下来看下与闭包类型相关的核心概念吧  
 
-以下三种 trait 先前已经提到过了, 所有 function item 已经自动都实现了, 但是闭包则并不会全部实现:  
+## trait的实现
 
-- `FnOnce`: 至少运行一次的闭包  
-- `FnMut`: 以 `&mut(可变借用)` 的形式使用被捕获的变量  
-- `Fn`: 以 `&(不可变借用)` 的形式使用被捕获的变量  
-
-当你创建并使用闭包时, 这些 trait 会自动为 闭包/匿名函数/lambda表达式 实现, 你以什么样的形式使用了被捕获的变量, 就会实现对应的 trait  
-每个闭包都自动实现了 FnOnce, 表示至少能够运行一次, 每个闭包除此之外还会自动实现 Fn 或者 FnMut (取决于你以什么形式使用被捕获的变量)  
-
-倘若这个闭包即不是以&mut的形式使用被捕获的变量(没有实现 FnMut), 也不是以&的形式(没有实现Fn), 因此它就只实现了 FnOnce  
-这就自然代表了, 只实现了 FnOnce 的闭包, 会以 "取得所有权的形式" 使用被捕获的变量  
-
-`Note`:  
-请注意上面强调的是 如何使用, 假设你使用了 `move` 关键字, 强制拿走了被捕获变量的所有权  
-但是, 如果闭包内仍然只是以不可变借用的形式使用, 那么该闭包也仍然只是实现了 Fn  
-
-因为一个被闭包以某种形式使用的变量, 其生命周期可能短于闭包本身, 所以我们有时候直接无脑取得闭包的所有权即可 (`move`)  
-
+以下三种 trait 先前已经提到过, 所有 `function-item` 都已自动实现了他们, 但是闭包则并不会全部都实现  
 这三个 trait 有所谓的父子关系: `Fn: FnMut: FnOnce`, 代表实现 `Fn` 的前提是实现了 `FnMut` 与 `FnOnce`, 对于 `FnMut` 同理  
-因为 `Fn`/`FnMut` 都是 `FnOnce` 的 `sub-trait`, 表示都基于 `FnOnce` 的基础上多了一些东西与功能  
-所以只要求传入 `FnOnce` 的地方, 自然可以被其 `sub-trait` 所代替  
+
+让我们假设存在一个自由变量x, 是某个闭包唯一所捕获的变量  
+
+- `FnOnce`:  
+表示至少运行一次的闭包, 为 `每个闭包` 自动实现
+- `FnMut`:  
+表示以 `&mut(可变借用)` 的形式使用了变量x的闭包, 为 `不会消费被捕获变量所有权的闭包` 自动实现 
+- `Fn`:  
+表示以 `&(不可变借用)` 的形式使用了变量x(或者不捕获变量x)的闭包, 为 `不会消费x所有权也不会改变(mutate)x的值的闭包` 自动实现  
+
+当你创建闭包时, 会自动为闭包选择性地实现它们  
+每个闭包都自动实现了 FnOnce, 表示至少能运行一次, 每个闭包除此之外还会自动实现 Fn 或者 FnMut (`取决于你以什么形式使用被捕获的变量`)  
+
+倘若闭包即未以 &mut 的形式使用变量x(未实现 FnMut), 也不是以 & 的形式使用变量x/没有捕获变量x(未实现Fn), 那么它自然只实现了 FnOnce  
+这样一来, 只实现 FnOnce 的闭包, 理所当然地代表着会以 `取得所有权的形式` 使用被捕获的变量 (毕竟就这三种形式)  
+
+它们之间存在父子关系 `Fn: FnMut: FnOnce`, 代表 `Fn` 是后者的 `sub-trait(子trait)`, 实现 `Fn` 必须先实现 `FnMut`/`FnOnce`  
+因此对于只要求传入 `FnOnce` 的地方, 自然可以被其 `sub-trait` 们所代替 (子trait基于父trait的基础上多实现了一些东西)  
+
+倘若函数的返回值是个闭包, 那么应优先返回 `Fn` (根据先前阐述过的 `sub-trait` 的事实可知 `Fn` 更加通用)  
+
+若闭包捕获了 `i32/f64/bool` 等基础类型时, 看起来就好像它们的所有权被拿走了, 但请别忘记 `Copy` 的存在  
+当被捕获变量是个实现了 `Copy` 的类型, 闭包会拿走其副本, 这并未 `消费被捕获变量的所有权`  
 
 
+## 匿名类型生成
 
-值得注意的是, 闭包的类型, 有点类似先前所述的 `function item` 里的 `unique identifier`, 因为每个闭包, 其实背后都生成了一个匿名结构体  
-这导致每个闭包的实际类型, 即使看起来一样, 其实不一样, 况且它还是个 trait  
-
-我们得用泛型, 或者 impl 关键字来表示闭包的实际类型:  
+生成闭包时, 编译器会自动创建匿名的结构体, 并为该类型实现 `Fn/FnMut/FnOnce` 等 trait, 我们并不知道其具体类型叫什么  
+因此, 我们得用泛型或 `impl` 关键字来表示闭包的实际类型:  
 
 ```rust
 fn generate_close() -> impl Fn(i32) -> i32 {
@@ -392,8 +416,52 @@ fn generate_close() -> impl Fn(i32) -> i32 {
 }
 ```
 
-如果你的函数其返回值是一个闭包, 那么应该优先返回 `Fn` (根据先前阐述过的 `sub-trait` 的事实 `Fn` 更加通用)  
-若闭包捕获了 `i32/f64/bool` 等基础类型并将其作为函数返回值时, 看起来就好像它们的所有权被拿走了, 但请别忘记 `Copy` 的存在  
+这也叫作 `不透明类型(opaque-type)`, 对于编译器来讲, 它只知道这个返回值的类型实现了某个 trait, 除此以外一无所知  
+
+这类似先前所述的 `function-item` 里的 `unique identifier`, 每个具体的闭包实例是生成的匿名结构体的具体实例  
+对于 `impl Fn` 这种 `opaque-type`, 即使看起来类型一样, 其实实际类型并不一样  
+
+不过 `非捕获闭包(Non-capturing) closure` 除外, 如果闭包不捕获变量, 则完全等价于 `fn` 声明开头的 `function-item`  
+对于这样的闭包, 如果它们看起来类型一样, 那么它们的类型则是真的一样的 (并且可以与 `fn` 开头的类型互相转化)  
+
+让我们用代码与编译器报错证明这一点:  
+
+```rust
+// f1 不捕获任何自由变量, 相当于用 fn 声明了一个函数并返回
+fn f1() -> impl Fn() -> i32 {
+    if true {
+        || 1
+    } else {
+        || 2
+    }
+}
+
+// f2 捕获了自由变量, 并不等价于 fn 声明的函数
+fn f2() -> impl Fn() -> i32 {
+    let a = 1;
+    if true {
+        || a
+    } else {
+        || a
+    }
+}
+```
+
+让我们解释一下上面的代码:  
+
+我们都知道一个事实, 那就是 rust 中的 `if-else/match` 语句要求每个分支所返回的值必须具有相同类型  
+这段代码进行编译时, 第一个不会报错, 第二个则无法通过编译, 证明了 `f1` 中两个 `未捕获闭包` 具有相同类型  
+但对于 `f2` 中的闭包们, 因为它们两个捕获了自由变量, 因此具有不同类型  
+
+## 强制转移所有权
+
+先前为每个闭包自动实现 trait 时, 强调的是 `如何使用`, 但 `move` 关键字可将被闭包捕获的变量的所有权, 强制交给闭包(但闭包本身可能并不会消费所有权)  
+若闭包内仍然只是 `以不可变借用的形式` 去使用被捕获变量, 那么它依旧仍然只实现了 Fn  
+
+`move` 关键字, 很多时候用于解决生命周期的问题 (我们在实现柯里化时, 也会用到这个特性):  
+闭包所捕获的变量, 其生命周期可能短于闭包本身, 比如你声明一个函数, 返回值是个闭包, 它捕获了函数体内产生的变量  
+这个被捕获的变量, 会随着函数的执行在末尾被 `Drop` 掉, 因此当已作为返回值传递给外界的闭包想使用它时, 就会访问无效的变量  
+因此, 我们直接用 `move` 将该变量的所有权强制传递给闭包即可, 即使闭包本身可能并不需要消费其所有权  
 
 哟西, 大致的基础概念都会了  
 ~~既然你已经懂得了1+1=2了, 让我们开始证明哥德巴赫猜想吧!~~  
@@ -451,7 +519,7 @@ fn main() {
 
 `Note`:  
 将函数的返回值类型写作 `impl FnOnce` 时可以返回任意类型的闭包, 但当你将它用于比如 `map` 需要传入 `FnMut` 时会编译失败  
-因为编译器只知道它实现了 `FnOnce`, 即使你人脑编译时觉得没问题, 但编译器根据函数签名等来检查时并不认同你 (  
+因为编译器只知道它实现了 `FnOnce`, 即使你人脑编译时觉得没问题, 但编译器根据函数签名等来检查时并不认同你 (`不透明类型(opaque-type)`)  
 
 接下来让我们开始过程宏的概念吧, 了解什么是元编程, 了解rust过程宏的强大之处, 随后将任意类似这样的函数自动柯里化吧  
 
@@ -460,10 +528,12 @@ fn main() {
 
 - - -
 
-# 元编程
+# 过程宏
 
 倘若是真的一点都没接触过相关概念, 理解下面的内容时可能会比较吃力, 明白的人直接跳过这节即可  
-我强烈建议学习 rust 中的宏/元编程时, 先学习 `声明宏(declare-macro)`, 其在我的博客中也有相应教程: [传送门](/categories/rust-decl-macro)  
+我强烈建议学习 rust 中的宏/元编程时, 先学习一点 `声明宏(declare-macro)`, 其在我的博客中也有相应教程: [传送门](/categories/rust-decl-macro)  
+
+## 元编程的简介
 
 `宏(macro)` 是 rust 中一种重要的 `元编程(meta-programming)` 手段  
 在正常编程时, 我们将 i32/f64/String 等类型视作数据, 操控与计算它们生成新的数据, 而元编程则将代码视作数据进行操控, 并生成新的代码  
@@ -525,9 +595,7 @@ impl std::fmt::Debug for A {
 
 宏为我们生成并隐藏了这些代码, 暴露给用户的接口宛若魔法一般, 这即是元编程魅力的冰山一角  
 
-- - -
-
-# 过程宏
+## 过程宏的使用
 
 本节我们将开始实现一个最小化的柯里化宏  
 为了照顾第一次学习过程宏的同学, 我会贴一下过程宏的三种分类与实际开发时的常用库  
@@ -536,9 +604,9 @@ impl std::fmt::Debug for A {
 
 - `函数式(function like)`: 类似于调用函数, 与声明宏使用起来的语法一致, 类似 `vec![]`  
 - `派生宏(derive macro)`: 你使用的哪些 `#[derive(...)]` 都属于这类范畴  
-- `属性宏(attribute macro)`: 我们接下来要创建的柯里化宏就是这一类, `#[CustomMacro(Attribute)]`, 括号与其中的Attr可以为空  
+- `属性宏(attribute macro)`: 我们接下来要创建的柯里化宏就是这一类, `#[CustomMacro(Attribute)]`, `Attr` 可以不写置空  
 
-没错, 第三类宏的生成代码你其实见到过了:  
+其实吧, 第三类宏的生成产物你已经见到过了:  
 
 ```rust
 #![feature(impl_trait_in_fn_trait_return)]
@@ -646,7 +714,8 @@ pub fn curry(_attr: TokenStream, input: TokenStream) -> TokenStream {
         }
     );
 
-    println!("{}", new_fn);
+    // TokenStream 实现了 std::fmt::Display, 所以可以通过 `println!` 打印进行 debug
+    println!("{}\n", new_fn);
 
     new_fn.into()
 }
@@ -711,18 +780,22 @@ pub fn curry(_attr: TokenStream, item: TokenStream) -> TokenStream {
         }
     );
 
-    println!("{}", new_fn);
+    // TokenStream 实现了 std::fmt::Display, 所以可以通过 `println!` 打印进行 debug
+    println!("{}\n", new_fn);
 
     new_fn.into()
 }
 ```
 
 现在 `test.rs` 中应该会出现编译错误, 因为现在生成的新函数的名字已经变成了 `new_add`  
-
 而对于柯里化, 我们仅需在 TokenStream 被解析抽象为 `ItemFn` 的基础上, 修改它的 `函数签名` 与 `函数体` 即可:  
 
-- `函数签名`: 应该是 `fn f(#ident1: #type1) -> impl Fn(#type2) -> impl Fn(#type3) -> impl Fn(#type4) ... -> #typen` 的形式
-- `函数体`: 应该是 `move |#ident2| move |#ident3| ... #body` 的形式
+
+- `函数签名`: 是 `fn f(#ident1: #type1) -> impl FnOnce(#type2) -> impl FnOnce(#type3) -> impl FnOnce(#type4) ... -> #typen` 的形式
+- `函数体`: 是 `move |#ident2| move |#ident3| ... #body` 的形式
+
+别忘了必须使用 `move` 关键字强制将被捕获变量的所有权交给闭包, 保证了作为函数返回值传播的闭包, 其生命周期长于被捕获的变量  
+由于函数体内可能会消费参数(被捕获变量)的所有权, 所以我们应该统一写成 `FnOnce`  
 
 ```rust
 #![feature(impl_trait_in_fn_trait_return)]
@@ -733,6 +806,8 @@ fn add(a: i32) -> impl FnOnce(i32) -> impl FnOnce(i32) -> i32 {
 ```
 
 最明显的难点自然在于如何生成这样的形式, 先让我们完善解决问题的思路, 搭建出来基本的骨架结构:  
+
+<figcaption> src/lib.rs </figcaption>
 
 ```rust
 use proc_macro::TokenStream;
@@ -765,8 +840,14 @@ pub fn curry(_attr: TokenStream, item: TokenStream) -> TokenStream {
     let first_arg_ident = arg_idents.first().unwrap();
     let first_arg_type = arg_types.first().unwrap();
 
+    let first_arg = if first_arg_ident.is_some() {
+        quote!(#first_arg_ident: #first_arg_type)
+    } else {
+        quote!()
+    };
+
     let new_fn = quote!(
-        #vis fn #fn_ident #impl_generics (#first_arg_ident: #first_arg_type) #return_type #where_clause {
+        #vis fn #fn_ident #impl_generics (#first_arg) #return_type #where_clause {
             #body
         }
     );
@@ -796,6 +877,8 @@ fn generate_body(
 
 让我们先完成 `generate_return_type` 的部分并介绍 `quote!` 的 `重复插值(repeat)`:  
 
+<figcaption> src/lib.rs </figcaption>
+
 ```rust
 fn generate_return_type(
     types: &[Box<Type>],
@@ -819,6 +902,8 @@ fn generate_return_type(
 
 同理, 让我们继续完成 `generate_body`:  
 
+<figcaption> src/lib.rs </figcaption>
+
 ```rust
 fn generate_body(
     idents: &[Box<Pat>],
@@ -839,9 +924,10 @@ fn generate_body(
 }
 ```
 
-我们必须使用 `move` 关键字让闭包强制取得被捕获变量的所有权, 不然无法保证作为函数返回值传播的闭包, 其生命周期长于被引用的变量  
 
-在 `tests/test.rs` 中进行测试:  
+在项目根目录下运行 `cargo t`, 你会看见用于 debug 的 `println` 打印了最后的 `TokenStream` 并通过测试:  
+
+<figcaption> tests/test.rs </figcaption>
 
 ```rust
 #![feature(impl_trait_in_fn_trait_return)]
@@ -859,7 +945,10 @@ fn test() {
 }
 ```
 
-看起来很不错, 但让我们再增加一些测试代码:  
+看起来很不错, 不过其实上面的 `add` 并没有消费参数(被捕获变量)的所有权, 因为 `i32` 实现了 `Copy`  
+让我们试试在函数体内消费参数的所有权:  
+
+<figcaption> tests/test.rs </figcaption>
 
 ```rust
 #![feature(impl_trait_in_fn_trait_return)]
@@ -881,7 +970,7 @@ fn test() {
 }
 ```
 
-不幸的是, 这次会报错: 
+顺利通过编译, 毕竟我们为返回值类型生成的是 `impl FnOnce`, 但倘若你改成 `impl Fn` 的样子, 就会得到这样的报错:  
 
 ```txt
 error[E0507]: cannot move out of `a`, a captured variable in an `Fn` closure
@@ -901,26 +990,236 @@ error[E0507]: cannot move out of `a`, a captured variable in an `Fn` closure
    |               move occurs because `a` has type `String`, which does not implement the `Copy` trait
 ```
 
-我们的函数体通过 `move` 捕获了变量的所有权, 先前不报错则是因为 `i32` 实现了 `Copy` 而 `String` 类型没有实现  
-因此我们得把 `impl Fn` 改成 `impl FnOnce`, 这样就不会有问题了  
-
-- - -
-
-# 特殊情况
+如果写成 `impl Fn`, 对于参数是 `String` 的情况会报错, 对于是 `i32` 的情况不会报错, 因为后者实现了 `Copy`  
+这更加证明了我们得写成 `impl FnOnce` 的形式  
 
 我们终于成功写出了一个可以对普通函数进行柯里化的属性宏了, 接下来让我们看看两种特殊情况  
 (说是特殊情况, 其实也是常见场景......)
 
 - 拥有泛型的函数
-- 迭代器的 `map` 中需求的 `FnMut` 约束  
+- 迭代器的 `map` 中对回调函数的 `FnMut` 约束需求  
 
+## 让宏支持泛型
+
+我们先前已经将输入参数中的泛型部分粘贴上去了, 所以现在直接进行测试:  
+
+<figcaption> tests/test.rs </figcaption>
+
+```rust
+#[curry]
+fn concat<T: std::fmt::Display>(a: T, b: T, c: T) -> String {
+    format!("{a} {b} {c}")
+}
+```
+
+编译器会报错:  
+
+```txt
+fn concat < T : std :: fmt :: Display > (a : T) -> impl FnOnce(T) -> impl
+FnOnce(T) -> String
+{ move | b : T | move | c : T | { format! ("{a} {b} {c}") } }
+
+error: concrete type differs from previous defining opaque type use
+  --> tests/test.rs:16:1
+   |
+16 | #[curry]
+   | ^^^^^^^^ expected `impl FnOnce(T) -> String`, got `{closure@tests/test.rs:16:1: 16:9}`
+   |
+note: previous use here
+  --> tests/test.rs:16:1
+   |
+16 | #[curry]
+   | ^^^^^^^^
+   = note: this error originates in the attribute macro `curry` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0720]: cannot resolve opaque type
+  --> tests/test.rs:16:1
+   |
+16 | #[curry]
+   | ^^^^^^^^ cannot resolve opaque type
+```
+
+看不懂啊? 什么鬼? 为什么会报错?  
+哈哈啊哈哈哈哈哈哈哈其实这是 `编译器的bug`, 我tm遇见的时候搜了好多资料搜不到解释, 快疯了快疯了快疯了哈哈哈哈啊哈哈哈哈哈哈哈哈哈哈哈噗噗噗噗噗噗噗噗啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊呜呜呜呜呜呜呜呜呜呜呜嗷嗷嗷呜呜呜呜呜呜呜呜哈哈哈哈哈呜呜呜呜呜 (不是  
+
+但请别在意, 代码本身写的其实是没有问题的, 但毕竟开了 nightly 下的 feature, 而且我们依旧有方法绕过去  
+
+当宏遇见 bug 时, 我们先前留下用来 debug 的 println 打印了生成的 TokenStream  
+至少对我个人来说, 我是通过将打印结果粘贴为一个独立的新函数快速修改, 找到了解决方案:  
+
+```rust
+// Failed to compile
+fn concat_1<T: std::fmt::Display>(a: T) -> impl FnOnce(T) -> impl FnOnce(T) -> String {
+    move |b: T| move |c: T| format!("{a} {b} {c}")
+}
+```
+
+通过修改, 我们有以下两种方法顺利编译 (这真的是bug, 当你阅读本篇时可能已被修复):  
+
+```rust
+// Sucessful
+fn concat_1<T: std::fmt::Display>(a: T) -> impl FnOnce(T) -> impl FnOnce(T) -> String {
+    (|| move |b: T| move |c: T| format!("{a} {b} {c}"))()
+}
+
+// Sucessful
+fn concat_1<T: std::fmt::Display>(a: T) -> impl FnOnce(T) -> impl FnOnce(T) -> String {
+    (move |b: T| move |c: T| format!("{a} {b} {c}"), ).0
+}
+```
+
+哟西, 既然找到了解决方法, 让我们修改宏吧:  
+
+<figcaption> src/lib.rs </figcaption>
+
+```rust
+fn generate_body(
+    // ...
+) -> proc_macro2::TokenStream {
+    // ...
+    // ...
+    let body = quote!(
+        ( #( move |#idents: #types| )* #body ,).0
+    );
+
+    body
+}
+```
+
+顺利解决了, 但如果我们想在 stable 情况下编译, 则可以通过使用 `Box<dyn Trait>` 来构造 `trait-object`  
+
+<figcaption> src/lib.rs </figcaption>
+
+```rust
+fn generate_return_type(
+    types: &[Box<Type>],
+    fn_return_type: ReturnType,
+) -> proc_macro2::TokenStream {
+    let last = types.len();
+    let range = 1..last;
+    let len = range.len();
+
+    let types = &types[range.clone()];
+
+    let fn_return_type = quote!(#fn_return_type).to_string();
+    let mut token_stream = String::new();
+    for ty in types.iter() {
+        let ty = quote!(#ty);
+        token_stream += &format!("-> Box<dyn FnOnce({ty})");
+    }
+    token_stream += &fn_return_type;
+    token_stream += &">".repeat(len);
+
+    proc_macro2::TokenStream::from_str(&token_stream).unwrap()
+}
+
+fn generate_body(
+    idents: &[Box<Pat>],
+    types: &[Box<Type>],
+    body: Box<Block>,
+) -> proc_macro2::TokenStream {
+    let last = types.len();
+    let range = 1..last;
+    let len = range.len();
+
+    let idents = &idents[range.clone()];
+    let types = &types[range];
+
+    let body = quote!(#body);
+    let mut token_stream = String::new();
+    for (id, ty) in idents.iter().zip(types.iter()) {
+        let (ident, ty) = (quote!(#id), quote!(#ty));
+        token_stream += &format!("Box::new( move |{ident}: {ty}| ");
+    }
+    token_stream += &format!("{body}");
+    token_stream += &")".repeat(len);
+
+    proc_macro2::TokenStream::from_str(&token_stream).unwrap()
+}
+```
+
+我们构造了 `Box<dyn FnOnce(T) -> Box<dyn FnOnce(T) -> String>>` 与 `Box::new(move |b| Box::new(move |c| -> #body))`  
+这需要在末尾配齐 `>` 与 `)` 这两种括号, 因此我们直接操控字符串, 然后调用 `from_str` 转成 `TokenStream` 即可(`use` 下 `std::str::FromStr`)  
+
+- - -
+
+# 自动推导类型
+
+我们已经解决了泛型的情况, 但仍然有一种情况我们无法通过, 那就在需求传入 `Fn`/`FnMut` 的地方:  
+
+```rust
+#[curry]
+fn add(a: i32, b: i32, c: i32) -> i32 {
+    a + b + c
+}
+
+// Expected: [4, 5, 6]
+// But failed to compile
+[1, 2, 3].map(add(1)(2))
+```
+
+因为我们的 `属性宏` 生成的是 `impl FnOnce`, 自然无法传递给需要 `FnMut` 的 `map` 中, 只能在相同作用域内依靠自动类型推导:  
+
+```rust
+fn add(a: i32, b: i32, c: i32) -> i32 {
+    a + b + c
+}
+
+let f = move |a| move |b| move |c| map(a, b, c);
+[1, 2, 3].map(f);
+```
+
+当然, 我们也可以写一个简化操作的宏 (虽然没简化多少):  
+
+```rust
+#[proc_macro]
+pub fn to_curry(input: TokenStream) -> TokenStream {
+    let input = proc_macro2::TokenStream::from(input);
+
+    let (mut fn_name, mut body) = (None, None);
+    let mut not_in_body = true;
+    let mut args = vec![];
+
+    for tt in input {
+        match tt {
+            TokenTree::Group(group) => {
+                body = Some(group);
+                break;
+            }
+            TokenTree::Ident(ident) if not_in_body => {
+                fn_name = Some(ident);
+                not_in_body = false;
+            }
+            _ => (),
+        }
+    }
+    for tt in body.clone().unwrap().stream().into_iter() {
+        if let TokenTree::Ident(ident) = tt {
+            args.push(ident)
+        }
+    }
+
+    let body = body.unwrap();
+    let closure = quote!(
+        #( move |#args| )* #fn_name #body
+    );
+
+    closure.into()
+}
+```
+
+现在可以这样:  
+
+```rust
+let f = to_curry!(map(a, b, c));
+[1, 2, 3].map(f(1)(2)); // [4, 5, 6]
+```
 
 - - -
 
 # 参考资料
 
 - [references: function-item](https://doc.rust-lang.org/reference/types/function-item.html)
-
+- [references: closure-types](https://doc.rust-lang.org/reference/types/closure.html)
 - [stackoverflow: `impl Trait` 的不同使用导致了不同的 `opaque types`](https://stackoverflow.com/questions/76987201/distinct-uses-of-impl-trait-result-in-different-opaque-types-in-rust)
-
 - [stackoverflow: 当闭包作为函数返回值时, 被捕获的变量其类型必须实现 `Copy` 吗?](https://stackoverflow.com/questions/73461494/must-a-captured-variable-type-implement-copy-trait-when-closure-returned-as-outp)
