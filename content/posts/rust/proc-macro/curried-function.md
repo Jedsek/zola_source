@@ -47,34 +47,37 @@ use syn::{parse_macro_input, Block, FnArg, ItemFn, Pat, ReturnType, Type};
 pub fn to_curry(input: TokenStream) -> TokenStream {
     let input = proc_macro2::TokenStream::from(input);
 
-    let mut in_body = true;
-    let mut f = None;
-    let mut body = None;
+    let (mut fn_name, mut body) = (None, None);
+    let mut not_in_body = true;
     let mut args = vec![];
 
-    for tt in input.into_iter() {
+    for tt in input {
         match tt {
-            TokenTree::Group(b) => body = Some(b),
-            TokenTree::Punct(p) if p.as_char() == '|' => in_body = !in_body,
-            TokenTree::Ident(ident) => {
-                if in_body {
-                    f = Some(ident)
-                } else {
-                    args.push(ident)
-                }
+            TokenTree::Group(group) => {
+                body = Some(group);
+                break;
+            }
+            TokenTree::Ident(ident) if not_in_body => {
+                fn_name = Some(ident);
+                not_in_body = false;
             }
             _ => (),
         }
     }
 
-    let f = f.unwrap();
+    for tt in body.clone().unwrap().stream().into_iter() {
+        if let TokenTree::Ident(ident) = tt {
+            args.push(ident)
+        }
+    }
+
     let body = body.unwrap();
 
-    let gen = quote!(
-        #( move |#args| )* #f #body
+    let closure = quote!(
+        #( move |#args| )* #fn_name #body
     );
 
-    gen.into()
+    closure.into()
 }
 
 #[proc_macro_attribute]
@@ -199,9 +202,9 @@ fn generic_curry() {
 }
 
 fn map_curry() {
-    let f = to_curry!(|a, b, c| map(b, a, c));
-    let i = [1, 2, 3].map(f(1)(-3));
-    assert_eq!(i, [-3, -4, -5]);
+    let f = to_curry!(map(a, b, c));
+    let i = [1, 2, 3].map(f(1)(2));
+    assert_eq!(i, [4, 5, 6]);
 }
 ```
 
@@ -639,8 +642,8 @@ fn add(a: i32, b: i32, c: i32) -> i32 {
 
 fn main() {
     let a = add(1);  // impl Fn(i32) -> impl Fn(i32) -> i32
-    let b = add(2);  // impl Fn(i32) -> i32
-    let c = add(3);  // i32: 6
+    let b = a(2);    // impl Fn(i32) -> i32
+    let c = b(3);    // i32: 6
 }
 ```
 
