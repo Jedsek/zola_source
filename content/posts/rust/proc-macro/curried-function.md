@@ -1214,7 +1214,7 @@ pub fn to_curry(input: TokenStream) -> TokenStream {
 现在可以这样:  
 
 ```rust
-let f = to_curry!(map(a, b, c));
+let f = to_curry!(add(a, b, c));
 [1, 2, 3].map(f(1)(2)); // [4, 5, 6]
 ```
 

@@ -38,6 +38,12 @@ Rust, 是一门高性能, 工具链友善, 类型严格显式的编程语言
 
 - - -
 
+# Linux
+
+- [ ] [在Linux下畅玩明日方舟(自定义按键/MAA使用/超宽屏视野/直播推流)](/posts/other/linux-arknights)  
+
+- - -
+
 # 光栅化
 - [ ] [光栅化中的dda与bresenham两种算法](/posts/other/rasterization-dda-bresenham)
 
