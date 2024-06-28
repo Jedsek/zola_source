@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="flex justify-center text-4xl my-6" style="opacity:0.84;"> 
+		{% if page.title %} {{ page.title }} {% endif %} 
+		{% if section.title %} {{ section.title }} {% endif %} 
+	</div>
+
+	<div class="p-4 navigation">
+		{% if page.content %} {{ page.content | safe }} {% endif %} 
+		{% if section.content %} {{ section.content | safe }} {% endif %} 
+
+		<script>
+
+		</script>
+
+		<style>
+			.todo-list {
+				list-style: none;
+				padding-left: 3px;
+			}
+		</style>
+
+
+	</div>
+
+	<div class="grow">
+	</div>
+
+{% endblock content %}
+
+

@@ -1,0 +1,12 @@
+{
+  "devDependencies": {
+    "daisyui": "latest",
+    "tailwindcss": "^3.4.3",
+    "tailwindcss-animate": "^1.0.7"
+  },
+  "dependencies": {
+    "autoprefixer": "latest",
+    "browserslist": "latest",
+    "caniuse-lite": "^1.0.30001620"
+  }
+}
