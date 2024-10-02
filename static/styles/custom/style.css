@@ -1,7 +1,8 @@
 /*定义整个滚动条高宽及背景：高宽分别对应横竖滚动条的尺寸*/
 ::-webkit-scrollbar
 {
-    width: 4px;
+    width: 3px;
+    height: 3px;
     background-color: cyan;
 }
 /*定义滚动条轨道：内阴影+圆角*/
