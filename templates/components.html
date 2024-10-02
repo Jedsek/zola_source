@@ -1,0 +1,184 @@
+{% macro navbar() %}
+
+<div class="nav flex flex-col gap-2 pb-auto opacity-100 text-center p-2" style="background-color: #2e2e2e;"> 
+  <a class="text-xl font-medium no-underline hover:scale-110 duration-300"
+			style="background-color: #2e2e2e;" href="/"> 
+				Jedsek's blog 
+	</a>
+	<span class="text-sm italic" style="background-color: #2e2e2e;"> 
+		与其浊富 | 宁比清贫 
+	</span>
+	<a href="/about" style="background-color: #2e2e2e;">
+		<img 
+			class="my-avatar p-2 duration-300 hover:scale-110 hover:rotate-12  hover:rounded-3xl hover:opacity-80" 
+			style="background-color: #2e2e2e;"
+			src="/images/avatar.webp"> 
+		</img>
+	</a>
+
+	
+	<nav class="px-2 pt-1"> 
+		<ul class="list-none pl-0" id="menu">
+			<li class="hover:scale-110 hover:opacity-60 hover:duration-300 hover:translate-x-2 hover:-translate-y-2 py-1 animate-in fade-in slide-in-from-bottom duration-1000"> 
+				<a class="no-underline block" href="/"> <i class="iconfont icon-home left"></i>
+					<span class="iconfont mr-10">首页</span>
+				</a>
+			</li>
+			<li class="hover:scale-110 hover:opacity-60 hover:duration-300 hover:translate-x-2 hover:-translate-y-2 py-1 animate-in fade-in slide-in-from-top duration-1000"> 
+				<a class="no-underline block" href="/about"> <i class="iconfont icon-about left"></i>
+					<span class="iconfont mr-10">关于</span>
+				</a>
+			</li>
+			<li class="hover:scale-110 hover:opacity-60 hover:duration-300 hover:translate-x-2 hover:-translate-y-2 py-1 animate-in fade-in slide-in-from-bottom duration-1000"> 
+				<a class="no-underline block" href="/sayings"> <i class="iconfont icon-yulu left"> </i>
+					<span class="iconfont mr-10">语录</span>
+				</a>
+			</li>
+			<li class="hover:scale-110 hover:opacity-60 hover:duration-300 hover:translate-x-2 hover:-translate-y-2 py-1 animate-in fade-in slide-in-from-top duration-1000"> 
+				<a class="no-underline block" href="/categories"> <i class="iconfont icon-Z-fenleidaohang left"></i>
+					<span class="iconfont mr-10">分类</span>
+				</a>
+			</li>
+			<li class="hover:scale-110 hover:opacity-60 hover:duration-300 hover:translate-x-2 hover:-translate-y-2 py-1 animate-in fade-in slide-in-from-bottom duration-1000"> 
+				<a class="no-underline block" href="/novels"> <i class="iconfont icon-config_s left"></i>
+					<span class="iconfont mr-10">小说</span>
+				</a>
+			</li>
+		</ul>
+	</nav>
+
+</div>
+
+<script>
+
+</script>
+
+{% endmacro navbar %}
+
+
+
+
+
+
+
+
+
+{% macro footer() %}
+
+	<div class="flex flex-col text-center border-t-2 py-8" style="background-color: #3b3b3b;">
+		<span> <i class="iconfont icon-aixin text-red-500 align-middle"> </i> <span class="opacity-70"> Jedsek </span> </span>
+	</div>
+
+
+	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+	{% if page.toc or section.toc %}
+		<div class="pl-4">
+			<span>
+				哈喽, 哈喽!!!! 这里应该算是一个几乎不算彩蛋的小彩蛋吧? 只有当你浏览具有 目录|TOC 的文章时, 此段才会渲染<br>
+				其实这里是特意留白出来的底部 footer, 保证了当你点击右侧的 目录|TOC 且是最后一个 anchor 时, 一定能高亮它 <br>
+				<br>
+
+				你可以想象一下, 如果没有这段 footer, 那么点击锚点时, 当最后一段目录的内容只有几行字时  <br>
+				由于底部行数过少, 就只能高亮到上面的锚点啦!  <br>
+				<br>
+
+				毕竟我高亮目录的实现思路, 是获取当前滚动的Y偏移量, 与锚点对应的 h1/h2 在博客左侧主体的Y偏移量, 进行计算来判断高亮哪个~  <br>
+				简单来说, 当 (window.scrollY + 200) >= anchor.offsetTop 时, 就会选择这个anchor, 随后进行高亮 <br>
+				<br>
+
+				你可以试试在浏览器中按 F12 打开开发者工具, ctrl-c 选择此处 class 名称为 "bottom-footer" 的 div, 然后删除该结点 <br>
+				然后按 F12 退出开发者工具, 随后点击右侧的 目录|TOC 中的结点, 当最后一个 anchor 的内容过少时, 锚点无法被高亮 <br>
+				当然, 当最后一个 anchor 的行数稍微多一些时, 照样能够高亮最后一个目录 <br>
+				<br>
+
+				如果你发现有无法高亮的情况, 嗯......那应该不太可能呢, 诶嘿～				
+			</span>
+
+			<br>
+			<br>
+		</div>
+	{% else %}
+		<div class="pl-4">
+			傻瓜瓜, 往上翻页呀!
+		</div>
+		
+	{% endif %}
+	<br>
+
+{% endmacro footer %}
+
+
+
+
+
+
+
+
+
+
+
+
+{% macro toc() %}
+
+<aside class="toc flex flex-col border-t-2 px-2 py-1 my-2">
+	{% if page.toc %}
+			<div class="text-center text-2xl">  目录|TOC </div>
+	    <ul class="list-none px-2 text-left">
+	    {% for h1 in page.toc %}
+					<li class="pb-0 leading-normal animate-in fade-in slide-in-from-bottom duration-1000"> 
+	            <a class="text-sm" href="#{{ h1.id | safe }}">{{ h1.title }}</a>
+              {% for h2 in h1.children %}
+								<li class="py-0 leading-normal animate-in fade-in slide-in-from-bottom duration-1000"> 
+                  <span class="pl-2">
+										{%if loop.last%}
+											└─<a class="text-sm" href="#{{ h2.id | safe }}">{{h2.title}}</a></span>
+										{%else%}
+											├─<a class="text-sm" href="#{{ h2.id | safe }}">{{h2.title}}</a></span>
+										{%endif%}
+                </li>
+              {% endfor %}
+	        </li>
+	    {% endfor %}
+	    </ul>
+	{% endif %}
+	{% if section.toc %}
+			<span class="text-center text-2xl">  目录|TOC </span>
+	    <ul class="list-none px-2 text-left">
+	    {% for h1 in section.toc %}
+					<li class="py-0 leading-normal animate-in fade-in slide-in-from-bottom duration-1000"> 
+	            <a class="text-sm" href="#{{ h1.id | safe }}">{{ h1.title }}</a>
+              {% for h2 in h1.children %}
+								<li class="py-0 leading-normal animate-in fade-in slide-in-from-bottom duration-1000"> 
+                  <span class="pl-2">
+										{%if loop.last%}
+											└─<a class="text-sm" href="#{{ h2.id | safe }}">{{h2.title}}</a></span>
+										{%else%}
+											├─<a class="text-sm" href="#{{ h2.id | safe }}">{{h2.title}}</a></span>
+										{%endif%}
+									</span>
+                </li>
+              {% endfor %}
+	        </li>
+	    {% endfor %}
+	    </ul>
+	{% endif %}
+</aside>
+
+{% endmacro toc %}
+
+{% macro float_botton() %}
+	<a class="float-botton-item no-underline" href="#">
+		<i class="iconfont icon-arrowup"></i>
+	</a>
+
+	<div class="float-bottton-seperator"> </div>
+
+	<div type="button" class="float-botton-item float-botton-toggle-sidebar">
+		<i class="iconfont icon-sidebar"></i>
+	</div>
+
+{% endmacro float_botton %}
+
+
+

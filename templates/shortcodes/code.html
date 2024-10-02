@@ -1,0 +1,20 @@
+{% if file %}
+<div class="code-with-filename">
+<span class="filename">
+	{{ file }}
+</span>
+{% endif %}
+
+{% set lng = lng | default(value="txt") %}
+
+{% set n = '
+' %}
+
+{% set r = "```" ~ lng ~ n ~ body ~ n ~ "```" %}
+
+{{ r | markdown | safe }}
+
+{% if file %}
+</div>
+{% endif %}
+

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="p-4 flex justify-center text-4xl" style="opacity:0.84;"> {{ page.title }} </div>
+  <div class="p-4 flex align-center text-sm hover:scale-125 duration-300 w-fit" style="color:#999;margin-top:-16px;margin-left:auto;margin-right:auto">
+    <~~ 发表日期:{{ page.date }}  |  
+        访问量: <span id="busuanzi_container_page_pv" class="text-sm" style="color:#999"> <span id="busuanzi_value_page_pv" class="text-sm" style="color:#999"></span></span>&nbsp;|
+        本文词数:{{ page.word_count }}  |  
+        预计阅读时间:{{ page.reading_time }}分钟 ~~>
+  </div>
+
+  <div class="p-4">
+		{{ page.content | safe }}
+  </div>
+{% endblock content %}

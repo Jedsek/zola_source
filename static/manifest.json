@@ -1,0 +1,16 @@
+{
+  "name": "Jedsek",
+  "short_name": "Jedsek",
+  "display": "fullscreen",
+  "start_url": "/categories",
+  "background_color": "#fff",
+  "description": "Jedsek's blog",
+  "icons": [
+    {
+      "src": "/images/avatar.webp",
+      "sizes": "512x512",
+      "type": "image/webp"
+    }
+  ]
+}
+

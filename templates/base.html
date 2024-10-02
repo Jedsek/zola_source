@@ -1,0 +1,137 @@
+{% import "components.html" as components %}
+
+<!DOCTYPE html>
+<html lang="zh-Hans" class="scroll-smooth">
+
+<head>
+  <meta charset="utf-8">
+  <link rel="manifest" href="/manifest.json" crossorigin="use-credentials" />
+
+  <script src="/scripts/custom/loadscript.js"></script>
+
+
+
+  <!-- Third party -->
+  <link rel="stylesheet" type="text/css" href="/styles/third_party/highlight.min.css" />
+  <link rel="stylesheet" type="text/css" href="/styles/third_party/highlight_themes/atom-one-dark.css" />
+  <script src="/scripts/third_party/pjax.min.js"></script>
+  <script src="/scripts/third_party/quicklink.umd.min.js"></script>
+  <script src="/scripts/third_party/jquery.min.js"> </script>
+  <script src="/scripts/third_party/highlight/highlight.min.js"> </script>
+  <script src="/scripts/third_party/highlight/languages/rust.min.js"> </script>
+  <script src="/scripts/third_party/highlight/languages/nix.min.js"> </script>
+  <script src="/scripts/third_party/highlight/languages/haskell.min.js"> </script>
+  <script src="/scripts/third_party/highlight/languages/gleam.min.js"> </script>
+  <script src="/scripts/third_party/highlight/languages/scheme.min.js"> </script>
+
+  <!-- Custom -->
+  <link rel="stylesheet" type="text/css" href="/iconfonts/iconfont.css" />
+  <link rel="stylesheet" type="text/css" href="/styles/custom/tailwind.css" />
+  <link rel="stylesheet" type="text/css" href="/styles/custom/style.css" />
+  <script src="/scripts/custom/pjax.js"> </script>
+  <script src="/scripts/custom/pwa_install.js"> </script>
+  <script>
+    document.documentElement.setAttribute("data-theme", "dark");
+  </script>
+  <script>
+    if (navigator.serviceWorker != null) {
+      navigator.serviceWorker.register('/sw.js')
+      .then(function(registration) {
+        console.log('Registered events at scope: ', registration.scope);
+      });
+    }
+  </script>
+  <script>
+    function SetCookie(sName, sValue) {document.cookie = sName + "=" + escape(sValue) + "; SameSite=None; Secure;"}
+    function GetCookie(sName) {
+      var aCookie = document.cookie.split(";");
+      for (var i = 0; i < aCookie.length; i++) {
+        var aCrumb = aCookie[i].split("=");
+        if (sName == aCrumb[0]) {return unescape(aCrumb[1]);}
+      }
+      return null;
+    }
+    function scrollback() {
+      if (GetCookie("scroll") != null) {
+        const scroll = GetCookie("scroll");
+        document.documentElement.scrollTo({top: scroll, left: 0, behavior: "instant"})
+      }
+    }
+  </script>
+
+  <script>
+    window.addEventListener('load', () => {
+      quicklink.listen()
+    })
+  </script>
+
+  <script>
+    loadExternalScript('//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js', function() {
+        console.log('External script loaded and executed.');
+    });
+    document.addEventListener('pjax:complete', function() {
+        loadExternalScript('//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js', function() {
+            console.log('External script loaded and executed.');
+        });
+    });
+  </script>
+
+  <title> Jedsek | Blog </title>
+</head>
+
+<body class="flex" id="body" onscroll=SetCookie("scroll",document.documentElement.scrollTop); onload="scrollback();">
+  <script src="/scripts/custom/fireworks.js"> </script>
+  <!-- <script src="/scripts/custom/cursor.js"> </script> -->
+  <div class="flex flex-rol grow">
+    <div class="content w-80 flex flex-col break-words pr-2
+        border-2 grow border-b-0 border-neutral-800 animate-in fade-in slide-in-from-top-8 duration-1000"
+      style="background-color:#3b3b3b;">
+      <div class="break-words" style="min-height:100vh;">
+        {% block content %} {% endblock %}
+      </div>
+      <div class="bottom-footer" style="height: 140vh;">
+        {{ components::footer() }}
+      </div>
+    </div>
+
+    <div class="sidebar flex-col w-48" style="display:flex;">
+        <script>
+            function show_sidebar_at_startup() {
+              const sidebar = document.getElementsByClassName('sidebar')[0];
+              if (/Mobi|Android|iPhone/i.test(navigator.userAgent) && sidebar.style.display == 'flex') {
+                sidebar.style.display = 'none'
+              }
+            }
+            show_sidebar_at_startup()
+        </script>
+        {{ components::navbar() }}
+
+      <div class="sticky top-0 ">
+        {{ components::toc() }}
+      </div>
+
+    </div>
+
+    <div class="float-botton flex">
+      {{ components::float_botton() }}
+    </div>
+
+  </div>
+
+
+
+  <script src="/scripts/custom/ul.js"> </script>
+  <script src="/scripts/third_party/lightgallery.min.js"> </script>
+  <script src="/scripts/custom/fancybox.js"> </script>
+  <script src="/scripts/custom/codeblock.js"> </script>
+  <script src="/scripts/custom/sidebar.js"> </script>
+  <script src="/scripts/custom/toc.js"> </script>
+  <script>
+    hljs.highlightAll();
+    document.addEventListener('pjax:complete', () => {
+      hljs.highlightAll();
+    });
+  </script>
+</body>
+
+</html>
