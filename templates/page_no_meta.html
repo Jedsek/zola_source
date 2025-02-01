@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="flex justify-center text-3xl opacity-80 my-2"> {{ page.title }} </div>
+
+  <div class="p-4">
+		{{ page.content | safe }}
+  </div>
+{% endblock content %}
+

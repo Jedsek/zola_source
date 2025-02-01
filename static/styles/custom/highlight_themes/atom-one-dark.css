@@ -1,0 +1,98 @@
+/*
+
+Atom One Dark by Daniel Gamage
+Original One Dark Syntax theme from https://github.com/atom/one-dark-syntax
+
+base:    #282c34
+mono-1:  #abb2bf
+mono-2:  #818896
+mono-3:  #5c6370
+hue-1:   #56b6c2
+hue-2:   #61aeee
+hue-3:   #c678dd
+hue-4:   #98c379
+hue-5:   #e06c75
+hue-5-2: #be5046
+hue-6:   #d19a66
+hue-6-2: #e6c07b
+
+*/
+
+.z {
+  color: #abb2bf;
+  /* background: #282c34; */
+}
+
+.z-comment,
+.z-quote {
+  color: #5c6370;
+  font-style: italic;
+}
+
+.z-doctag,
+.z-keyword,
+.z-formula {
+  color: #c678dd;
+}
+
+.z-section,
+.z-name,
+.z-selector-tag,
+.z-deletion,
+.z-subst {
+  color: #e06c75;
+}
+
+.z-literal {
+  color: #56b6c2;
+}
+
+.z-string,
+.z-regexp,
+.z-addition,
+.z-attribute,
+.z-meta .z-string {
+  color: #98c379;
+}
+
+.z-attr,
+.z-variable,
+.z-template-variable,
+.z-type,
+.z-selector-class,
+.z-selector-attr,
+.z-selector-pseudo,
+.z-number {
+  color: lightgray;
+}
+
+.z-symbol,
+.z-bullet,
+.z-link,
+.z-meta,
+.z-selector-id,
+.z-title {
+  color: #61aeee;
+}
+
+.z-built_in,
+.z-title.class_,
+.z-class .z-title {
+  color: #e6c07b;
+}
+
+.z-emphasis {
+  font-style: italic;
+}
+
+.z-strong {
+  font-weight: bold;
+}
+
+.z-link {
+  text-decoration: underline;
+}
+
+.z-function .z-modifier .z-impl {
+  color: #c678dd
+}

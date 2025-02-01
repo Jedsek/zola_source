@@ -1,0 +1,282 @@
+code {
+	color: plum;
+}
+
+/*定义整个滚动条高宽及背景：高宽分别对应横竖滚动条的尺寸*/ 
+::-webkit-scrollbar
+{
+    width: 3px;
+    height: 3px;
+    background-color: cyan;
+}
+/*定义滚动条轨道：内阴影+圆角*/
+::-webkit-scrollbar-track
+{
+    background-color: #3b3b3b;
+}
+/*定义滑块：内阴影+圆角*/
+::-webkit-scrollbar-thumb
+{
+    border-radius: 5px;
+    background-color: cyan;
+}
+
+
+@font-face {
+	font-family: "MapleMono";
+	src:
+		url("/fonts/MapleMono-Woff2/MapleMono-Bold.woff2") format("woff2");
+		url("/fonts/MapleMono-Woff2/MapleMono-BoldItalic.woff2") format("woff2");
+		url("/fonts/MapleMono-Woff2/MapleMono-ExtraBold.woff2") format("woff2");
+		url("/fonts/MapleMono-Woff2/MapleMono-ExtraBoldItalic.woff2") format("woff2");
+		url("/fonts/MapleMono-Woff2/MapleMono-ExtraLight.woff2") format("woff2");
+		url("/fonts/MapleMono-Woff2/MapleMono-ExtraLightItalic.woff2") format("woff2");
+		url("/fonts/MapleMono-Woff2/MapleMono-Italic.woff2") format("woff2");
+		url("/fonts/MapleMono-Woff2/MapleMono-Light.woff2") format("woff2");
+		url("/fonts/MapleMono-Woff2/MapleMono-LightItalic.woff2") format("woff2");
+		url("/fonts/MapleMono-Woff2/MapleMono-Medium.woff2") format("woff2");
+		url("/fonts/MapleMono-Woff2/MapleMono-MediumItalic.woff2") format("woff2");
+		url("/fonts/MapleMono-Woff2/MapleMono-Regular.woff2") format("woff2");
+		url("/fonts/MapleMono-Woff2/MapleMono-SemiBold.woff2") format("woff2");
+		url("/fonts/MapleMono-Woff2/MapleMono-SemiBoldItalic.woff2") format("woff2");
+		url("/fonts/MapleMono-Woff2/MapleMono-Thin.woff2") format("woff2");
+		url("/fonts/MapleMono-Woff2/MapleMono-ThinItalic.woff2") format("woff2");
+}
+
+* {
+	font-family: 'MapleMono';
+	color-scheme: dark;
+	font-size: 16px;
+	background-color: #2c3032;
+	/* background-color: #2c3032; */
+	color: #e8e6e3;
+	line-height: 1.4em;
+}
+
+input[type='checkbox']{
+  width: 19px !important;
+  height: 19px !important;
+  margin: 5px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -o-appearance: none;
+  appearance:none;
+  outline: 1px solid lightblue;
+  box-shadow: none;
+  font-size: 2em;
+}
+
+input[type='checkbox']:checked:after {
+	content: 'L';
+	color: cyan;
+	transform: rotate(40deg) scaleX(-0.6) scaleY(0.8);
+	display: inline-block
+}
+
+.sicp-answer {
+	display: flex;
+	flex-wrap: wrap;
+	align-content: flex-start;
+	margin-left: 12px;
+}
+
+.sicp-answer a {
+	display: inline-block;
+	width: 10%;
+	padding: 3px;
+	margin: 3px;
+	box-sizing: border-box;
+	text-align: center;
+	border: 2px solid #ccc;
+	text-decoration: none;
+}
+
+img[src*="#w100"] {
+	width: 100%;
+}
+
+img[src*="#w95"] {
+	width: 95%;
+}
+
+img[src*="#w90"] {
+	width: 90%;
+}
+
+img[src*="#w80"] {
+	width: 80%;
+}
+
+img[src*="#w70"] {
+	width: 70%;
+}
+
+img[src*="#w60"] {
+	width: 60%;
+}
+
+img[src*="#w50"] {
+	width: 50%;
+}
+
+img[src*="#w40"] {
+	width: 40%;
+}
+
+.iconfont {
+	font-size: 28px;
+	line-height: 1.36em;
+}
+
+.icon-arrow-up,
+.icon-sidebar {
+	font-size: 2.2rem;
+}
+
+.iconfont-wrapper {
+	display: flex;
+	justify-content: space-between;
+}
+
+.left {
+	float: left;
+}
+
+.right {
+	float: right;
+}
+
+tbody tr:nth-of-type(2n+1) {
+	background-color: #282828;
+}
+
+th,
+td {
+	opacity: 0.88;
+	border: 2px solid rgba(221, 221, 221, 0.76);
+	padding: 8px 10px;
+}
+
+.toc * {
+	font-weight: bold;
+}
+
+.toc .select-anchor {
+	color: lightskyblue;
+}
+
+pre {
+	font-family: 'MapleMono';
+	line-height: 1.1;
+}
+
+.pre-pure {
+	margin: 0;
+	opacity: 0.88;
+	padding: 0.2em;
+	width: auto;
+	max-width: fit-content;
+	overflow-x: auto;
+	line-height: 1
+}
+
+.pre-center {
+	margin: auto;
+	background: #282c34;
+	box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+	margin-bottom: 30px;
+	opacity: 0.88;
+	padding: 0.2em;
+	width: auto;
+	max-width: fit-content;
+	overflow-x: auto;
+	line-height: 1
+}
+
+.pre-left {
+	background: #282c34;
+	box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+	margin-bottom: 30px;
+	opacity: 0.88;
+	padding: 0.2em;
+	width: auto;
+	max-width: fit-content;
+	overflow-x: auto;
+	line-height: 1
+}
+
+a {
+	text-decoration: underline;
+	text-underline-offset: 4px;
+	text-decoration-thickness: 1px;
+	opacity: 0.9;
+}
+
+a:hover {
+	color: lightgray;
+	text-decoration-style: double;
+}
+
+a:active {
+	color: #555655;
+}
+
+hr {
+	margin: 40px 0;
+	border-style: dashed;
+	border-width: 2px;
+}
+
+p {
+	margin: 20px 0px 20px;
+	opacity: 0;
+	opacity: 0.9;
+}
+
+blockquote {
+	border-left: 4px solid #ddd;
+	color: #bbb;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding: 0 15px;
+	font-weight: 450;
+	opacity: 0.66;
+}
+
+input[type="checkbox"] {
+	width: 24px;
+	height: 24px;
+	vertical-align: middle;
+}
+
+ul {
+	list-style: disc;
+	padding-left: 28px;
+	margin-top: 12px;
+	margin-bottom: 12px;
+}
+
+ol {
+	list-style: decimal;
+	padding-left: 50px;
+}
+
+
+li {
+	opacity: 0.92;
+	line-height: 1.3em;
+}
+
+h1 {
+	font-size: 36px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	opacity:  0.8;
+}
+
+h2 {
+	font-size: 24px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	opacity:  0.8;
+}

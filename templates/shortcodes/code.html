@@ -1,0 +1,49 @@
+{% if nth == 1 %}
+<script>
+  function copy_code(nth) {
+      const codeblock_content = document.querySelector(".codeblock-content-".concat(nth))
+      const copy_button = document.querySelector(".copy-button-".concat(nth))
+
+      navigator.clipboard.writeText(codeblock_content.textContent).then(async () => {
+        notify_send("喂, 文本已经复制好了", 2500)
+        copy_button.textContent = "已复制"
+        console.log('Content was successfully copied to clipboard');
+        setTimeout(async () => { copy_button.textContent = "复制" }, 2500)
+      },() => {
+        console.error('Failed to copy');
+      });
+  }
+  function fold_code(nth) {
+      const codeblock_content = document.querySelector(".codeblock-content-".concat(nth))
+      const fold_button = document.querySelector(".fold-button-".concat(nth))
+
+      notify_send("嘛, 切换完毕了", 2500)
+      const next_fold_state = fold_button.textContent
+      if (next_fold_state == "折叠") {
+        codeblock_content.style.display = "none"
+        fold_button.textContent = "展开"
+      } else {
+        codeblock_content.style.display = "block"
+        fold_button.textContent = "折叠"
+      }
+  }
+  
+</script>
+{% endif %}
+
+<div class="my-2 mt-2 mb-10">
+  <figcaption class="flex border-b border-dashed">
+    {% if path %}
+      <i class="iconfont icon-code content-center ml-2"></i>
+      <span class="text-xl content-center ml-2 mr-4"> {{ path }} </span>
+    {% endif %}
+    {% if info %}
+      <i class="iconfont icon-chat content-center ml-2"></i> <span class="text-xl content-center ml-2 mr-4"> {{ info | markdown(inline=true) | safe }} </span>
+    {% endif %}
+    <button class="copy-button-{{nth}} text-xl content-center ml-auto" onclick="copy_code({{nth}})"> 复制 </button>
+    <button class="fold-button-{{nth}} text-xl content-center ml-4" onclick="fold_code({{nth}})"> {% if hidden %} 展开 {% else %} 折叠 {% endif %} </button>
+  </figcaption>
+  <div class="codeblock-content-{{nth}} border-b border-dashed p-3 overflow-auto {% if hidden %} hidden {% endif %}">
+    {{body | markdown | safe}}
+  </div>
+</div>

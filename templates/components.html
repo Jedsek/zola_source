@@ -1,0 +1,192 @@
+{% macro head_scripts() %}
+<!-- Third party -->
+<!-- <link rel="stylesheet" type="text/css" href="/styles/third_party/highlight.min.css" /> -->
+<!-- <link rel="stylesheet" type="text/css" href="/styles/third_party/highlight_themes/atom-one-dark.css" /> -->
+<script src="/scripts/third_party/pjax.min.js"></script>
+<script src="/scripts/third_party/quicklink.umd.min.js"></script>
+<script src="/scripts/third_party/jquery.min.js"> </script>
+
+<!-- Custom -->
+<link rel="stylesheet" type="text/css" href="/iconfonts/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="/styles/custom/tailwind.css" />
+<link rel="stylesheet" type="text/css" href="/styles/custom/style.css" />
+<link rel="stylesheet" type="text/css" href="/styles/custom/highlight_themes/atom-one-dark.css" />
+<script src="/scripts/custom/pjax.js"> </script>
+<script src="/scripts/custom/pwa_install.js"> </script>
+<script src="/scripts/custom/notify_send.js"> </script>
+<script> document.documentElement.setAttribute("data-theme", "dark"); </script>
+<script>
+  function SetCookie(sName, sValue) {document.cookie = sName + "=" + escape(sValue) + "; SameSite=None; Secure;"}
+  function GetCookie(sName) {
+    var aCookie = document.cookie.split(";");
+    for (var i = 0; i < aCookie.length; i++) {
+      var aCrumb = aCookie[i].split("=");
+      if (sName == aCrumb[0]) {return unescape(aCrumb[1]);}
+    }
+    return null;
+  }
+  function scrollback() {
+    if (GetCookie("scroll") != null) {
+      const scroll = GetCookie("scroll");
+      document.documentElement.scrollTo({top: scroll, left: 0, behavior: "instant"})
+    }
+  }
+</script>
+
+<script>
+  window.addEventListener('load', () => {
+    quicklink.listen()
+  })
+</script>
+{% endmacro %}
+
+{% macro body_scripts() %}
+<script src="/scripts/custom/fireworks.js"> </script>
+<script src="/scripts/custom/ul.js"> </script>
+<script src="/scripts/custom/sidebar.js"> </script>
+<script src="/scripts/custom/toc.js"> </script>
+<!-- <script>
+  hljs.highlightAll();
+  document.addEventListener('pjax:complete', () => {
+    hljs.highlightAll();
+  });
+</script> -->
+{% endmacro %}
+
+
+{% macro blog_info() %}
+<div class="flex flex-col gap-2 pb-auto opacity-100 text-center p-2 bg-[#2e2e2e]"> 
+  <a class="text-xl font-medium no-underline hover:scale-110 duration-300 bg-[#2e2e2e]" href="/" onclick="notify_send('哼, 这里我当然熟悉了', 2500)">
+		柳下川的博客
+	</a>
+	<span class="text-sm italic bg-[#2e2e2e]"> 与其浊富 | 宁比清贫 </span>
+</div>
+{% endmacro%}
+
+
+{% macro avatar() %}
+<a href="/fantasy/wtf" onclick="notify_send('纳尼?', 2500)" class="bg-[#2e2e2e]">
+	<img class="p-2 max-w-40 mx-auto duration-300 hover:scale-110 hover:rotate-12  hover:rounded-3xl hover:opacity-60 bg-[#2e2e2e]"
+		src="/images/avatar.webp"> 
+	</img>
+</a>
+{% endmacro %}
+
+{% macro navigation_item(text, href, iconfont, notification) %}
+<li class="max-w-40 m-auto hover:scale-110 hover:opacity-60 hover:duration-100 hover:translate-x-2 hover:-translate-y-2 py-1 animate-in fade-in slide-in-from-bottom duration-700"> 
+	<a class="no-underline flex" href={{href}} onclick="notify_send('{{notification}}', 2500)">
+		<i class="iconfont icon-{{iconfont}} left mx-3"></i>
+		<span class="iconfont mx-auto">{{text}}</span>
+	</a>
+</li>
+{% endmacro  %}
+
+{% macro toc() %}
+
+<aside class="toc sticky top-0 flex flex-col pl-1 py-1 min-h-screen">
+	{% if page.toc %}
+			<div class="text-center text-2xl">  目录|TOC </div>
+	    <ul class="list-none pl-1 text-left animate-in fade-in slide-in-from-bottom duration-1000">
+	    {% for h1 in page.toc %}
+					<li class="leading-normal"> 
+	            <a class="text-sm" href="#{{ h1.id | safe }}">{{ h1.title }}</a>
+              {% for h2 in h1.children %}
+								<li class="leading-normal"> 
+                  <span class="pl-2">
+										{%if loop.last%}
+											└─<a class="text-sm" href="#{{ h2.id | safe }}">{{h2.title}}</a></span>
+										{%else%}
+											├─<a class="text-sm" href="#{{ h2.id | safe }}">{{h2.title}}</a></span>
+										{%endif%}
+                </li>
+              {% endfor %}
+	        </li>
+	    {% endfor %}
+	    </ul>
+	{% endif %}
+	{% if section.toc %}
+			<div class="text-center text-2xl">  目录|TOC </div>
+	    <ul class="list-none pl-1 text-left animate-in fade-in slide-in-from-bottom duration-1000">
+	    {% for h1 in section.toc %}
+					<li class="leading-normal "> 
+	            <a class="text-sm" href="#{{ h1.id | safe }}">{{ h1.title }}</a>
+              {% for h2 in h1.children %}
+								<li class="leading-normal"> 
+                  <span class="pl-2">
+										{%if loop.last%}
+											└─<a class="text-sm" href="#{{ h2.id | safe }}">{{h2.title}}</a></span>
+										{%else%}
+											├─<a class="text-sm" href="#{{ h2.id | safe }}">{{h2.title}}</a></span>
+										{%endif%}
+									</span>
+                </li>
+              {% endfor %}
+	        </li>
+	    {% endfor %}
+	    </ul>
+	{% endif %}
+</aside>
+{% endmacro %}
+
+
+{% macro footer() %}
+<div class="min-h-screen">
+	<div class="flex flex-col text-center border-t-2 py-8 bg-#[#2c3032]">
+		<div> <i class="iconfont icon-love text-red-500 align-middle"> </i> <span class="opacity-70 text-2xl"> 柳下川 </span> </div>
+	</div>
+
+	<div class="m-4">
+		<span>如果你发现文章有错误, 麻烦联系我, 当然单纯想加个QQ好友找我聊天也行, 欢迎你耶! :)</span> <br>
+		<del>(这算是一种扩列吗? 嘿嘿)</del>
+	</div>
+
+	<div class="ml-4">
+		<span> <i class="iconfont icon-qq"> </i> --> <span class="opacity-70 text-2xl"> 2948804617 </span> </span> <br>
+		<span> <i class="iconfont icon-email"> </i> --> <span class="opacity-70 text-2xl"> jedsek@qq.com </span> </span> <br>
+		<span> <i class="iconfont icon-github"> </i> --> <span class="opacity-70 text-2xl"> Jedsek </span> </span> <br>
+		<span> <i class="iconfont icon-bilibili"> </i> --> <a class="opacity-70 text-2xl" href="https://space.bilibili.com/673774482"> B站个人主页 </a> </span> <br>
+		<span> <i class="iconfont icon-zhihu"> </i> --> <a class="opacity-70 text-2xl" href="https://www.zhihu.com/people/jedsek"> 知乎个人主页 </a> </span> <br>
+	</div>	
+</div>
+{% endmacro %}
+
+
+
+
+{% macro floating_botton() %}
+<script>
+function toggle_sidebar() {
+  const sidebar = document.querySelector(".sidebar");
+  if (sidebar.style.display == 'none') {
+    sidebar.style.display = 'flex'
+    console.log('show sidebar')
+  } else {
+    sidebar.style.display = 'none'
+    console.log('hide sidebar')
+  }
+}
+</script>
+<div class="fixed flex right-[3rem] bottom-[2.6rem] border-2 border-solid border-[#ccc] opacity-50">
+	
+	<a class="flex justify-center items-center w-[3.3rem] h-[3.3rem] no-underline *:hover:text-[#fc6423]" href="#" onclick="notify_send('嗯, 本大爷要回去了', 2000)">
+		<i class="iconfont icon-arrow-up"></i>
+	</a>
+
+	<div class="inline-block w-[2px] bg-[#ccc]"> </div>
+
+	<button class="flex justify-center items-center w-[3.3rem] h-[3.3rem] *:hover:text-[#fc6423]" onclick="toggle_sidebar();notify_send('我去稍微揍一下辉夜!', 2000)">
+		<i class="iconfont icon-sidebar"></i>
+	</button>
+</div>
+{% endmacro %}
+
+
+{% macro floating_notification() %}
+<div class="notification pointer-events-none fixed top-3 right-3 flex invisible border-[#d08770] border-2 w-80 h-fit py-1">
+	<img class="m-1 max-w-[60px]" src="/images/mokou.webp"> </img>
+	<div class="flex flex-col">
+		<span class="text-2xl"> 藤原妹红: </span> </br>
+		<span class="notification-content text-xl my-auto">  </span>
+	</div>
+</div>
+{% endmacro %}

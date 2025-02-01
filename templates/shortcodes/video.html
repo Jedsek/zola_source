@@ -1,0 +1,15 @@
+<figure class="rounded-sm p-2.5 relative overflow-clip mb-2">
+<video autoplay="" controls="" loop="" preload="auto" playsinline=""
+width="{{scale*100}}%"
+>
+<source src={{src}} >
+</video> 
+
+{% if info %} 
+<figcaption class="max-w-full border-t *:my-0 *:mx-auto *:w-fit *:px-2 *:text-sm *:font-semibold *:text-offgray *:bg-[#212220] [&_code]:bg-[#212220] bg-[#212220] *:opacity-80"
+            style="width:{{scale*100}}%;">
+{{info | markdown | safe}}
+</figcaption>
+{% endif %}
+</figure>
+

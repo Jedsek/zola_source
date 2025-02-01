@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="pl-2 my-2">
+  <div class="opacity-90">
+    {{ section.content | safe }}
+  </div>
+</div>
+
+<script>
+var lis = document.getElementsByTagName("li");
+for (var i = 0; i < lis.length; i++) {
+  if (lis[i].innerHTML.toString().includes("<input"))  {
+    lis[i].style.listStyle = "none";
+    lis[i].parentElement.style.paddingLeft = "2px";
+  }
+}
+</script>
+
+{% endblock content %}

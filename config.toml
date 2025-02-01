@@ -1,0 +1,25 @@
+# The URL the site will be built for
+base_url = "https://jedsek.xyz"
+
+# Whether to automatically compile all Sass files in the sass directory
+compile_sass = false
+
+minify_html = true
+
+# Whether to build a search index to be used later on by a JavaScript library
+build_search_index = false
+
+generate_feeds = true
+
+[markdown]
+# Whether to do syntax highlighting
+# Theme can be customised by setting the `highlight_theme` variable to a theme supported by Zola
+highlight_code = true
+highlight_theme = "css"
+highlight_themes_css = [
+  { theme = "one-dark", filename = "styles/custom/highlight_themes/atom-one-dark.css" },
+]
+extra_syntaxes_and_themes = ["syntaxes"]
+
+[extra]
+# Put all your custom variables here
