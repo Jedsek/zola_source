@@ -85,7 +85,7 @@
 						[&_a]:font-semibold [&_.select-anchor]:text-[lightskyblue] [&_.select-anchor]:italic [&_.select-anchor]:text-base">
 	{% if page.toc %}
 			<div class="text-center text-xl my-2">  目录|TOC </div>
-	    <div class="list-none pl-1 text-left animate-in fade-in slide-in-from-bottom duration-1000">
+	    <div class="list-none pl-1 text-left">
 	    {% for h1 in page.toc %}
 					<div class="leading-normal"> 
 	            <a class="text-sm" href="#{{ h1.id | safe }}">{{ h1.title }}</a>
@@ -105,7 +105,7 @@
 	{% endif %}
 	{% if section.toc %}
 			<div class="text-center text-2xl my-2">  目录|TOC </div>
-	    <div class="list-none pl-1 text-left animate-in fade-in slide-in-from-bottom duration-1000">
+	    <div class="list-none pl-1 text-left">
 	    {% for h1 in section.toc %}
 					<div class="leading-normal "> 
 	            <a class="text-sm" href="#{{ h1.id | safe }}">{{ h1.title }}</a>
