@@ -6,8 +6,5 @@ module.exports = {
     "./content/**/*.md",
     "./public/**/*.html",
   ],
-  plugins: [
-    require("tailwindcss-animate"),
-  ],
 }
 
