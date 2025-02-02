@@ -42,7 +42,7 @@
 
 {% macro body_scripts() %}
 <script src="/scripts/custom/fireworks.js"> </script>
-<script src="/scripts/custom/ul.js"> </script>
+<!-- <script src="/scripts/custom/ul.js"> </script> -->
 <script src="/scripts/custom/toc.js"> </script>
 <!-- <script>
   hljs.highlightAll();
@@ -72,45 +72,44 @@
 {% endmacro %}
 
 {% macro navigation_item(text, href, iconfont, notification) %}
-<li class="max-w-40 m-auto hover:scale-110 hover:opacity-60 hover:duration-100 hover:translate-x-2 hover:-translate-y-2 py-1 animate-in fade-in slide-in-from-bottom duration-700"> 
+<div class="max-w-40 m-auto hover:scale-110 hover:opacity-60 hover:duration-100 hover:translate-x-2 hover:-translate-y-2 py-1 animate-in fade-in slide-in-from-bottom duration-700"> 
 	<a class="no-underline flex" href={{href}} onclick="notify_send('{{notification}}', 2500)">
 		<i class="iconfont icon-{{iconfont}} left mx-3"></i>
 		<span class="iconfont mx-auto">{{text}}</span>
 	</a>
-</li>
+</div>
 {% endmacro  %}
 
 {% macro toc() %}
-
-<aside class="toc sticky top-0 flex flex-col pl-1 py-1 min-h-screen">
+<div class="toc sticky top-0 flex flex-col pl-1 py-1 min-h-screen [&_a]:font-semibold [&_.select-anchor]:text-[lightskyblue]">
 	{% if page.toc %}
 			<div class="text-center text-2xl">  目录|TOC </div>
-	    <ul class="list-none pl-1 text-left animate-in fade-in slide-in-from-bottom duration-1000">
+	    <div class="list-none pl-1 text-left animate-in fade-in slide-in-from-bottom duration-1000">
 	    {% for h1 in page.toc %}
-					<li class="leading-normal"> 
+					<div class="leading-normal"> 
 	            <a class="text-sm" href="#{{ h1.id | safe }}">{{ h1.title }}</a>
               {% for h2 in h1.children %}
-								<li class="leading-normal"> 
+								<div class="leading-normal"> 
                   <span class="pl-2">
 										{%if loop.last%}
 											└─<a class="text-sm" href="#{{ h2.id | safe }}">{{h2.title}}</a></span>
 										{%else%}
 											├─<a class="text-sm" href="#{{ h2.id | safe }}">{{h2.title}}</a></span>
 										{%endif%}
-                </li>
+                </div>
               {% endfor %}
-	        </li>
+	        </div>
 	    {% endfor %}
-	    </ul>
+	    </div>
 	{% endif %}
 	{% if section.toc %}
 			<div class="text-center text-2xl">  目录|TOC </div>
-	    <ul class="list-none pl-1 text-left animate-in fade-in slide-in-from-bottom duration-1000">
+	    <div class="list-none pl-1 text-left animate-in fade-in slide-in-from-bottom duration-1000">
 	    {% for h1 in section.toc %}
-					<li class="leading-normal "> 
+					<div class="leading-normal "> 
 	            <a class="text-sm" href="#{{ h1.id | safe }}">{{ h1.title }}</a>
               {% for h2 in h1.children %}
-								<li class="leading-normal"> 
+								<div class="leading-normal"> 
                   <span class="pl-2">
 										{%if loop.last%}
 											└─<a class="text-sm" href="#{{ h2.id | safe }}">{{h2.title}}</a></span>
@@ -118,13 +117,13 @@
 											├─<a class="text-sm" href="#{{ h2.id | safe }}">{{h2.title}}</a></span>
 										{%endif%}
 									</span>
-                </li>
+                </div>
               {% endfor %}
-	        </li>
+	        </div>
 	    {% endfor %}
-	    </ul>
+	    </div>
 	{% endif %}
-</aside>
+</div>
 {% endmacro %}
 
 
@@ -140,11 +139,11 @@
 	</div>
 
 	<div class="ml-4">
-		<span> <i class="iconfont icon-qq"> </i> --> <span class="opacity-70 text-2xl"> 2948804617 </span> </span> <br>
-		<span> <i class="iconfont icon-email"> </i> --> <span class="opacity-70 text-2xl"> jedsek@qq.com </span> </span> <br>
-		<span> <i class="iconfont icon-github"> </i> --> <span class="opacity-70 text-2xl"> Jedsek </span> </span> <br>
-		<span> <i class="iconfont icon-bilibili"> </i> --> <a class="opacity-70 text-2xl" href="https://space.bilibili.com/673774482"> B站个人主页 </a> </span> <br>
-		<span> <i class="iconfont icon-zhihu"> </i> --> <a class="opacity-70 text-2xl" href="https://www.zhihu.com/people/jedsek"> 知乎个人主页 </a> </span> <br>
+		<span> <i class="iconfont icon-qq"> </i> --> <span class="opacity-80 text-2xl"> 2948804617 </span> </span> <br>
+		<span> <i class="iconfont icon-email"> </i> --> <span class="opacity-80 text-2xl"> jedsek@qq.com </span> </span> <br>
+		<span> <i class="iconfont icon-github"> </i> --> <span class="opacity-80 text-2xl"> Jedsek </span> </span> <br>
+		<span> <i class="iconfont icon-bilibili"> </i> --> <a class="opacity-80 text-2xl" href="https://space.bilibili.com/673774482"> B站个人主页 </a> </span> <br>
+		<span> <i class="iconfont icon-zhihu"> </i> --> <a class="opacity-80 text-2xl" href="https://www.zhihu.com/people/jedsek"> 知乎个人主页 </a> </span> <br>
 	</div>	
 </div>
 {% endmacro %}

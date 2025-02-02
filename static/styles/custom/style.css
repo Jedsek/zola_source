@@ -27,7 +27,7 @@ code {
 	src:
 		url("/fonts/MapleMono-Woff2/MapleMono-Bold.woff2") format("woff2");
 		url("/fonts/MapleMono-Woff2/MapleMono-BoldItalic.woff2") format("woff2");
-		url("/fonts/MapleMono-Woff2/MapleMono-ExtraBold.woff2") format("woff2");
+		url("/fonts/MapleMono-Woff2/MaredpleMono-ExtraBold.woff2") format("woff2");
 		url("/fonts/MapleMono-Woff2/MapleMono-ExtraBoldItalic.woff2") format("woff2");
 		url("/fonts/MapleMono-Woff2/MapleMono-ExtraLight.woff2") format("woff2");
 		url("/fonts/MapleMono-Woff2/MapleMono-ExtraLightItalic.woff2") format("woff2");
@@ -46,9 +46,7 @@ code {
 * {
 	font-family: 'MapleMono';
 	color-scheme: dark;
-	font-size: 16px;
 	background-color: #2c3032;
-	/* background-color: #2c3032; */
 	color: #e8e6e3;
 	line-height: 1.4em;
 }
@@ -157,17 +155,10 @@ td {
 	padding: 8px 10px;
 }
 
-.toc * {
-	font-weight: bold;
-}
-
-.toc .select-anchor {
-	color: lightskyblue;
-}
-
 pre {
 	font-family: 'MapleMono';
 	line-height: 1.1;
+	opacity: 0.85
 }
 
 .pre-pure {
@@ -205,19 +196,19 @@ pre {
 	line-height: 1
 }
 
-a {
+.content a {
 	text-decoration: underline;
 	text-underline-offset: 4px;
 	text-decoration-thickness: 1px;
 	opacity: 0.9;
 }
 
-a:hover {
+.content a:hover {
 	color: lightgray;
 	text-decoration-style: double;
 }
 
-a:active {
+.content a:active {
 	color: #555655;
 }
 

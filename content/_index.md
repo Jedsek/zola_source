@@ -44,6 +44,7 @@ RSS --> [atom.xml](/atom.xml)
 - [x] 弹幕弹窗提示(藤原妹红!): 在复制文本, 展开/折叠代码, 点击右侧导航页等都会出现!  
 - [x] 将 markdown 中的 code/image/video 通过 zola 的 shortcode 组件化与样式化  
 - [x] 右侧 TOC(目录) 根据内容动态调整宽度, 避免目录换行  
+- [x] 从 tailwind-v3 迁移至 tailwind-v4  
 - [ ] 去除 highlight.js 进行静态高亮(现在去除了, 但还没为各语言适配 css)  
 - [ ] 修复手机端的一些 bug, 文本大小适配, 侧边栏默认自动开闭, 优化阅读体验等  
 - [ ] 类似 [parinfer](https://shaunlebron.github.io/parinfer/) 的方案显示 lisp/scheme 代码  
