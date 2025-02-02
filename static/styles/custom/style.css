@@ -55,6 +55,7 @@ input[type='checkbox']{
   width: 19px !important;
   height: 19px !important;
   margin: 5px;
+	vertical-align: middle;
   -webkit-appearance: none;
   -moz-appearance: none;
   -o-appearance: none;
@@ -232,12 +233,6 @@ blockquote {
 	padding: 0 15px;
 	font-weight: 450;
 	opacity: 0.66;
-}
-
-input[type="checkbox"] {
-	width: 24px;
-	height: 24px;
-	vertical-align: middle;
 }
 
 ul {
