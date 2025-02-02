@@ -15,5 +15,5 @@ function notify_send(content, timeout) {
 }
 
 addEventListener("copy", (_event) => {
-	notify_send("喂, 文本已经复制好了", 2500)
+	notify_send("喂, 文本已经复制好了", 2000)
 });

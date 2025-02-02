@@ -55,7 +55,7 @@
 
 {% macro blog_info() %}
 <div class="flex flex-col gap-2 pb-auto opacity-100 text-center p-2 bg-[#2e2e2e]"> 
-  <a class="text-xl font-medium no-underline hover:scale-110 duration-300 bg-[#2e2e2e]" href="/" onclick="notify_send('哼, 这里我当然熟悉了', 2500)">
+  <a class="text-xl font-medium no-underline hover:scale-110 duration-300 bg-[#2e2e2e]" href="/" onclick="notify_send('哼, 这里我当然熟悉了', 2000)">
 		柳下川的博客
 	</a>
 	<span class="text-sm italic bg-[#2e2e2e]"> 与其浊富 | 宁比清贫 </span>
@@ -64,7 +64,7 @@
 
 
 {% macro avatar() %}
-<a href="/fantasy/wtf" onclick="notify_send('纳尼?', 2500)" class="bg-[#2e2e2e]">
+<a href="/fantasy/wtf" onclick="notify_send('纳尼?', 2000)" class="bg-[#2e2e2e]">
 	<img class="p-2 max-w-40 mx-auto duration-300 hover:scale-110 hover:rotate-12  hover:rounded-3xl hover:opacity-60 bg-[#2e2e2e]"
 		src="/images/avatar.webp"> 
 	</img>
@@ -73,7 +73,7 @@
 
 {% macro navigation_item(text, href, iconfont, notification) %}
 <div class="max-w-40 m-auto hover:scale-110 hover:opacity-60 hover:duration-100 hover:translate-x-2 hover:-translate-y-2 py-1"> 
-	<a class="no-underline flex" href={{href}} onclick="notify_send('{{notification}}', 2500)">
+	<a class="no-underline flex" href={{href}} onclick="notify_send('{{notification}}', 2000)">
 		<i class="iconfont icon-{{iconfont}} left mx-3"></i>
 		<span class="iconfont mx-auto">{{text}}</span>
 	</a>
@@ -88,14 +88,14 @@
 	    <div class="list-none pl-1 text-left">
 	    {% for h1 in page.toc %}
 					<div class="leading-normal"> 
-	            <a class="text-sm" href="#{{ h1.id | safe }}">{{ h1.title }}</a>
+	            <a class="text-sm" href="#{{ h1.id | safe }}" onclick="notify_send('传送至->\n{{h1.title}}', 500)">{{ h1.title }}</a>
               {% for h2 in h1.children %}
 								<div class="leading-normal"> 
                   <span class="pl-2">
 										{%if loop.last%}
-											└─<a class="text-sm" href="#{{ h2.id | safe }}">{{h2.title}}</a></span>
+											└─<a class="text-sm" href="#{{ h2.id | safe }}" onclick="notify_send('传送至->\n{{h2.title}}', 500)">{{h2.title}}</a></span>
 										{%else%}
-											├─<a class="text-sm" href="#{{ h2.id | safe }}">{{h2.title}}</a></span>
+											├─<a class="text-sm" href="#{{ h2.id | safe }}" onclick="notify_send('传送至->\n{{h2.title}}', 500)">{{h2.title}}</a></span>
 										{%endif%}
                 </div>
               {% endfor %}
@@ -108,14 +108,14 @@
 	    <div class="list-none pl-1 text-left">
 	    {% for h1 in section.toc %}
 					<div class="leading-normal "> 
-	            <a class="text-sm" href="#{{ h1.id | safe }}">{{ h1.title }}</a>
+	            <a class="text-sm" href="#{{ h1.id | safe }}" onclick="notify_send('传送至->\n{{h1.title}}', 500)">{{ h1.title }}</a>
               {% for h2 in h1.children %}
 								<div class="leading-normal"> 
                   <span class="pl-2">
 										{%if loop.last%}
-											└─<a class="text-sm" href="#{{ h2.id | safe }}">{{h2.title}}</a></span>
+											└─<a class="text-sm" href="#{{ h2.id | safe }}" onclick="notify_send('传送至->\n{{h2.title}}', 500)">{{h2.title}}</a></span>
 										{%else%}
-											├─<a class="text-sm" href="#{{ h2.id | safe }}">{{h2.title}}</a></span>
+											├─<a class="text-sm" href="#{{ h2.id | safe }}" onclick="notify_send('传送至->\n{{h2.title}}', 500)">{{h2.title}}</a></span>
 										{%endif%}
 									</span>
                 </div>
@@ -181,11 +181,11 @@ function toggle_sidebar() {
 
 
 {% macro floating_notification() %}
-<div class="notification pointer-events-none fixed top-3 right-3 flex invisible border-[#d08770] border-2 w-80 h-fit py-1">
+<div class="notification pointer-events-none fixed top-3 right-3 flex invisible border-[#d08770] border-2 w-fit min-w-70 h-fit py-1">
 	<img class="m-1 max-w-[60px]" src="/images/mokou.webp"> </img>
 	<div class="flex flex-col">
 		<span class="text-2xl"> 藤原妹红: </span> </br>
-		<span class="notification-content text-xl my-auto">  </span>
+		<span class="notification-content text-xl my-auto whitespace-pre">  </span>
 	</div>
 </div>
 {% endmacro %}

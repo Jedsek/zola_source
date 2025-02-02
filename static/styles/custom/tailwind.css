@@ -680,6 +680,12 @@
   .w-80 {
     width: calc(var(--spacing) * 80);
   }
+  .w-85 {
+    width: calc(var(--spacing) * 85);
+  }
+  .w-90 {
+    width: calc(var(--spacing) * 90);
+  }
   .w-\[2px\] {
     width: 2px;
   }
@@ -697,6 +703,12 @@
   }
   .max-w-full {
     max-width: 100%;
+  }
+  .min-w-40 {
+    min-width: calc(var(--spacing) * 40);
+  }
+  .min-w-70 {
+    min-width: calc(var(--spacing) * 70);
   }
   .flex-shrink {
     flex-shrink: 1;
@@ -922,12 +934,6 @@
   .text-\[100\%\] {
     font-size: 100%;
   }
-  .text-\[130\%\] {
-    font-size: 130%;
-  }
-  .text-\[140\%\] {
-    font-size: 140%;
-  }
   .text-\[14rem\] {
     font-size: 14rem;
   }
@@ -936,6 +942,12 @@
   }
   .text-\[120\%\] {
     font-size: 120%;
+  }
+  .text-\[130\%\] {
+    font-size: 130%;
+  }
+  .text-\[140\%\] {
+    font-size: 140%;
   }
   .text-\[150\%\] {
     font-size: 150%;
@@ -1039,6 +1051,9 @@
   }
   .break-all {
     word-break: break-all;
+  }
+  .whitespace-pre {
+    white-space: pre;
   }
   .text-\[\#999\] {
     color: #999;

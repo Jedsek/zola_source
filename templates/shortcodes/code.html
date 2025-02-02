@@ -5,10 +5,10 @@
       const copy_button = document.querySelector(".copy-button-".concat(nth))
 
       navigator.clipboard.writeText(codeblock_content.textContent).then(async () => {
-        notify_send("喂, 文本已经复制好了", 2500)
+        notify_send("喂, 文本已经复制好了", 2000)
         copy_button.textContent = "已复制"
         console.log('Content was successfully copied to clipboard');
-        setTimeout(async () => { copy_button.textContent = "复制" }, 2500)
+        setTimeout(async () => { copy_button.textContent = "复制" }, 2000)
       },() => {
         console.error('Failed to copy');
       });
@@ -17,14 +17,15 @@
       const codeblock_content = document.querySelector(".codeblock-content-".concat(nth))
       const fold_button = document.querySelector(".fold-button-".concat(nth))
 
-      notify_send("嘛, 切换完毕了", 2500)
       const next_fold_state = fold_button.textContent
       if (next_fold_state == "折叠") {
         codeblock_content.style.display = "none"
         fold_button.textContent = "展开"
+        notify_send("嘛, 折叠完毕了", 2000)
       } else {
         codeblock_content.style.display = "block"
         fold_button.textContent = "折叠"
+        notify_send("嘛, 展开完毕了", 2000)
       }
   }
   
