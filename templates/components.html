@@ -72,7 +72,7 @@
 {% endmacro %}
 
 {% macro navigation_item(text, href, iconfont, notification) %}
-<div class="max-w-40 m-auto hover:scale-110 hover:opacity-60 hover:duration-100 hover:translate-x-2 hover:-translate-y-2 py-1 animate-in fade-in slide-in-from-bottom duration-700"> 
+<div class="max-w-40 m-auto hover:scale-110 hover:opacity-60 hover:duration-100 hover:translate-x-2 hover:-translate-y-2 py-1"> 
 	<a class="no-underline flex" href={{href}} onclick="notify_send('{{notification}}', 2500)">
 		<i class="iconfont icon-{{iconfont}} left mx-3"></i>
 		<span class="iconfont mx-auto">{{text}}</span>
@@ -81,7 +81,8 @@
 {% endmacro  %}
 
 {% macro toc() %}
-<div class="toc sticky top-0 flex flex-col pl-1 py-1 min-h-screen [&_a]:font-semibold [&_.select-anchor]:text-[lightskyblue]">
+<div class="toc sticky top-0 flex flex-col pl-1 py-1 min-h-screen
+						[&_a]:font-semibold [&_.select-anchor]:text-[lightskyblue] [&_.select-anchor]:italic [&_.select-anchor]:text-base">
 	{% if page.toc %}
 			<div class="text-center text-2xl">  目录|TOC </div>
 	    <div class="list-none pl-1 text-left animate-in fade-in slide-in-from-bottom duration-1000">
