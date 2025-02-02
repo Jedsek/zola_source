@@ -813,9 +813,6 @@
   .bg-\[\#282c34\] {
     background-color: #282c34;
   }
-  .bg-\[\#212220\] {
-    background-color: #212220;
-  }
   .bg-\[\#212220\]\! {
     background-color: #212220 !important;
   }
@@ -824,9 +821,6 @@
   }
   .bg-\[\#2e2e2e\] {
     background-color: #2e2e2e;
-  }
-  .bg-\[\#ccc\] {
-    background-color: #ccc;
   }
   .bg-\[\#ccc\]\! {
     background-color: #ccc !important;
@@ -928,6 +922,12 @@
   .text-\[100\%\] {
     font-size: 100%;
   }
+  .text-\[130\%\] {
+    font-size: 130%;
+  }
+  .text-\[140\%\] {
+    font-size: 140%;
+  }
   .text-\[14rem\] {
     font-size: 14rem;
   }
@@ -936,12 +936,6 @@
   }
   .text-\[120\%\] {
     font-size: 120%;
-  }
-  .text-\[130\%\] {
-    font-size: 130%;
-  }
-  .text-\[140\%\] {
-    font-size: 140%;
   }
   .text-\[150\%\] {
     font-size: 150%;
@@ -1155,19 +1149,9 @@
     --tw-ease: var(--ease-out);
     transition-timing-function: var(--ease-out);
   }
-  .\*\:mx-auto {
-    :is(& > *) {
-      margin-inline: auto;
-    }
-  }
   .\*\:mx-auto\! {
     :is(& > *) {
       margin-inline: auto !important;
-    }
-  }
-  .\*\:my-0 {
-    :is(& > *) {
-      margin-block: calc(var(--spacing) * 0);
     }
   }
   .\*\:my-0\! {
@@ -1175,19 +1159,9 @@
       margin-block: calc(var(--spacing) * 0) !important;
     }
   }
-  .\*\:w-fit {
-    :is(& > *) {
-      width: fit-content;
-    }
-  }
   .\*\:w-fit\! {
     :is(& > *) {
       width: fit-content !important;
-    }
-  }
-  .\*\:bg-\[\#212220\] {
-    :is(& > *) {
-      background-color: #212220;
     }
   }
   .\*\:bg-\[\#212220\]\! {
@@ -1195,20 +1169,9 @@
       background-color: #212220 !important;
     }
   }
-  .\*\:px-2 {
-    :is(& > *) {
-      padding-inline: calc(var(--spacing) * 2);
-    }
-  }
   .\*\:px-2\! {
     :is(& > *) {
       padding-inline: calc(var(--spacing) * 2) !important;
-    }
-  }
-  .\*\:text-sm {
-    :is(& > *) {
-      font-size: var(--text-sm);
-      line-height: var(--tw-leading, var(--text-sm--line-height));
     }
   }
   .\*\:text-sm\! {
@@ -1223,31 +1186,15 @@
       font-weight: var(--font-weight-medium) !important;
     }
   }
-  .\*\:font-semibold {
-    :is(& > *) {
-      --tw-font-weight: var(--font-weight-semibold);
-      font-weight: var(--font-weight-semibold);
-    }
-  }
   .\*\:font-semibold\! {
     :is(& > *) {
       --tw-font-weight: var(--font-weight-semibold) !important;
       font-weight: var(--font-weight-semibold) !important;
     }
   }
-  .\*\:opacity-80 {
-    :is(& > *) {
-      opacity: 80%;
-    }
-  }
   .\*\:opacity-80\! {
     :is(& > *) {
       opacity: 80% !important;
-    }
-  }
-  .\*\:opacity-90 {
-    :is(& > *) {
-      opacity: 90%;
     }
   }
   .\*\:opacity-90\! {
@@ -1310,15 +1257,6 @@
       }
     }
   }
-  .hover\:\*\:text-\[\#fc6423\] {
-    &:hover {
-      @media (hover: hover) {
-        :is(& > *) {
-          color: #fc6423;
-        }
-      }
-    }
-  }
   .hover\:\*\:text-\[\#fc6423\]\! {
     &:hover {
       @media (hover: hover) {
@@ -1328,21 +1266,10 @@
       }
     }
   }
-  .\[\&_\.select-anchor\]\:text-base {
-    & .select-anchor {
-      font-size: var(--text-base);
-      line-height: var(--tw-leading, var(--text-base--line-height));
-    }
-  }
   .\[\&_\.select-anchor\]\:text-base\! {
     & .select-anchor {
       font-size: var(--text-base) !important;
       line-height: var(--tw-leading, var(--text-base--line-height)) !important;
-    }
-  }
-  .\[\&_\.select-anchor\]\:text-\[lightskyblue\] {
-    & .select-anchor {
-      color: lightskyblue;
     }
   }
   .\[\&_\.select-anchor\]\:text-\[lightskyblue\]\! {
@@ -1350,32 +1277,9 @@
       color: lightskyblue !important;
     }
   }
-  .\[\&_\.select-anchor\]\:italic {
-    & .select-anchor {
-      font-style: italic;
-    }
-  }
   .\[\&_\.select-anchor\]\:italic\! {
     & .select-anchor {
       font-style: italic !important;
-    }
-  }
-  .\[\&_a\]\:font-medium\! {
-    & a {
-      --tw-font-weight: var(--font-weight-medium) !important;
-      font-weight: var(--font-weight-medium) !important;
-    }
-  }
-  .\[\&_a\]\:font-semibold {
-    & a {
-      --tw-font-weight: var(--font-weight-semibold);
-      font-weight: var(--font-weight-semibold);
-    }
-  }
-  .\[\&_a\]\:font-semibold\! {
-    & a {
-      --tw-font-weight: var(--font-weight-semibold) !important;
-      font-weight: var(--font-weight-semibold) !important;
     }
   }
   .\[\&_a\:hover\]\:decoration-wavy {
@@ -1383,24 +1287,9 @@
       text-decoration-style: wavy;
     }
   }
-  .\[\&_code\]\:bg-\[\#212220\] {
-    & code {
-      background-color: #212220;
-    }
-  }
   .\[\&_code\]\:bg-\[\#212220\]\! {
     & code {
       background-color: #212220 !important;
-    }
-  }
-  .\[\&_li\]\:list-none {
-    & li {
-      list-style-type: none;
-    }
-  }
-  .\[\&_li\]\:px-0 {
-    & li {
-      padding-inline: calc(var(--spacing) * 0);
     }
   }
   .\[\&_p\]\:opacity-\[0\.86\] {
@@ -1408,29 +1297,14 @@
       opacity: 0.86;
     }
   }
-  .\[\&_ul\]\:list-none {
-    & ul {
-      list-style-type: none;
-    }
-  }
   .\[\&_ul\]\:list-none\! {
     & ul {
       list-style-type: none !important;
     }
   }
-  .\[\&_ul\]\:px-0 {
-    & ul {
-      padding-inline: calc(var(--spacing) * 0);
-    }
-  }
   .\[\&_ul\]\:px-0\! {
     & ul {
       padding-inline: calc(var(--spacing) * 0) !important;
-    }
-  }
-  .\[\&_ul\]\:px-20 {
-    & ul {
-      padding-inline: calc(var(--spacing) * 20);
     }
   }
 }

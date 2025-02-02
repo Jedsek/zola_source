@@ -6,7 +6,8 @@ width="{{scale*100}}%"
 </video> 
 
 {% if info %} 
-<figcaption class="max-w-full border-t *:my-0! *:mx-auto! *:w-fit! *:px-2! *:text-sm! *:font-semibold! *:text-offgray! *:bg-[#212220]! bg-[#212220]! *:opacity-80!"
+<figcaption class="max-w-full border-t bg-[#212220]!
+                   *:my-0! *:mx-auto! *:w-fit! *:px-2! *:text-sm! *:font-semibold! *:text-offgray! *:bg-[#212220]! [&_code]:bg-[#212220]! *:opacity-80!"
             style="width:{{scale*100}}%;">
 {{info | markdown | safe}}
 </figcaption>
