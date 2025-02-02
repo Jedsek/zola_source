@@ -23,7 +23,7 @@ RSS --> [atom.xml](/atom.xml)
 <span class="text-[lightcoral]">博客介绍</span>  
 
 - 这里是我的个人博客, 内容包括计算机方面的文章, 自己写点小说, 记录一些推 galgame 时语录, 还有乱七八糟的想法等  
-- 右侧是 **目录(TOC)** 哦, 页面内存在大标题时会自动生成, 支持 1 级与 2 级标题, 前往 [分类](/categories) 试试? 查看更多归纳好的文章  
+- 右侧是 **目录(TOC)** 哦, 页面内存在大标题时会自动生成, 支持 1 级与 2 级标题, 前往 [编程](/programming) 试试? 查看更多归纳好的文章  
 - 本站使用 [zola](https://www.getzola.org) 搭建, 从最初的 [hexo-next](https://theme-next.js.org) 主题迁移而来, 前端废柴写了点垃圾 html/js/css  
 - 手机/平板上有些地方可能不怎么适配 ~~(因为我也前端恐惧症, 而且......我懒得改啦!!!)~~
 

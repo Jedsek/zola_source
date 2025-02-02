@@ -35,10 +35,10 @@
   <figcaption class="flex border-b border-dashed">
     {% if path %}
       <i class="iconfont icon-code content-center ml-2"></i>
-      <span class="text-lg content-center ml-2 mr-4 opacity-90"> {{ path }} </span>
+      <span class="text-lg content-center ml-2 mr-4 opacity-90!"> {{ path }} </span>
     {% endif %}
     {% if info %}
-      <i class="iconfont icon-chat content-center ml-2"></i> <span class="text-lg content-center ml-2 mr-4 opacity-90"> {{ info | markdown(inline=true) | safe }} </span>
+      <i class="iconfont icon-chat content-center ml-2"></i> <span class="text-lg content-center ml-2 mr-4 opacity-90!"> {{ info | markdown(inline=true) | safe }} </span>
     {% endif %}
     <button class="copy-button-{{nth}} text-xl content-center ml-auto" onclick="copy_code({{nth}})"> 复制 </button>
     <button class="fold-button-{{nth}} text-xl content-center ml-4" onclick="fold_code({{nth}})"> {% if hidden %} 展开 {% else %} 折叠 {% endif %} </button>
