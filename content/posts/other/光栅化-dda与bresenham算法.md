@@ -35,7 +35,7 @@ DDA(Digital Differential Analyzer), 数字微分分析法, 可别被这名字给
 假设每个像素方块, 其左下角为该像素的坐标, 已知起点与终点的坐标 $\begin{cases}(x_1, y_1)\\\\(x_2, y_2)\end{cases}$, 可求出其斜率k  
 当k<1时, 如图所示, x每增加1时, y需要增加m, 随后将y向下取整得到yy, 然后渲染(x, yy):  
 
-{{ img(src="/images/others/dda_1.webp" info="dda-图1" scale=0.5) }}
+{{ img(src="/images/others/dda_1.avif" info="dda-图1" scale=0.5) }}
 
 {% code(info="伪代码") %}
 ```rust
@@ -63,7 +63,7 @@ for x in x1..=x2 step=1.0
 但还有一些问题, 那就是当斜率k > 1时, 即倾斜角大于 45 度时, 如果按照 "x不断+1, y不断+k" 的套路, 将无法连续, 如下左图所示  
 此时, 我们就应该反转一下, 按照 "y不断+1, x不断+1/k" 的套路, 才能做到尽量连续, 即反转了x与y轴, 如下右图所示  
 
-{{ img(src="/images/others/dda_2.webp" info="dda-图2" scale=0.7) }}
+{{ img(src="/images/others/dda_2.avif" info="dda-图2" scale=0.7) }}
 
 我们将沿着x轴的方向, 或沿着y轴的方向, 移动幅度大的那一个方向, 称作 主位移方向  
 如上面的图1, x轴为主位移方向, 而在图2中, y轴是主位移方向  

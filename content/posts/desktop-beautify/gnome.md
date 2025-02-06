@@ -25,8 +25,8 @@ template = "page.html"
 我个人认为 **简洁** + **大气** + **美观** 比较重要, 当然你也可以自行修改进行DIY  
 如果真的有需求, 请自己动手, 丰衣足食吧! ~~(虽然我认为本文已经详细地不能再详细了)~~ 
 
-{{ img(src="/images/gnome/overview_44_wave_dark_wallpaper.webp" info="44_wave_dark_wallapper" scale=0.7) }}
-{{ img(src="/images/gnome/overview_44_blue_wallpaper.webp" info="44_blue_wallpaper" scale=0.7) }}
+{{ img(src="/images/gnome/overview_44_wave_dark_wallpaper.avif" info="44_wave_dark_wallapper" scale=0.7) }}
+{{ img(src="/images/gnome/overview_44_blue_wallpaper.avif" info="44_blue_wallpaper" scale=0.7) }}
 
 - - -
 
@@ -292,7 +292,7 @@ ibus 是 gnome 内置的一个输入法, 但没有 fcitx5 强, 不过默认情�
 该插件可以深度自定义 ibus 的行为, 比如打字时能让候选框随着打字的节奏而抖动, 非常爽  
 再比如设置中英文切换时, 指示器的显示时间, 抖动效果, 闪烁特效等  
 ~~(但我还是选择无敌的 fcitx5)~~   <br/>
-![ibus默认情况下的外表/系统暗色主题](/images/gnome/ibus.webp)  
+![ibus默认情况下的外表/系统暗色主题](/images/gnome/ibus.avif)  
 
 - [quake-mode](https://extensions.gnome.org/extension/1411/quake-mode/)  
 雷神模式!! 该插件可以让你以雷神模式打开一些与快捷键绑定的应用, 即以下拉式打开任意一个app, 全部工作区共享一个app  
@@ -319,7 +319,7 @@ quake-mode 配上你喜欢的任意一个终端, 都会产生非常棒的奇效,
 - [just-perfection](https://extensions.gnome.org/extension/3843/just-perfection/)  
 我最喜欢的一个插件, 用于对界面进行大量自定义与精简  
 比如, 可以隐藏 Dash (按Super后底部的一行), 改变顶栏元素等   <br/>
-{{ img(src="/images/gnome/overview_44_wave_dark_wallpaper.webp" info="just-perfection" scale=0.7) }}
+{{ img(src="/images/gnome/overview_44_wave_dark_wallpaper.avif" info="just-perfection" scale=0.7) }}
 
 - [nothing-to-say](https://extensions.gnome.org/extension/1113/nothing-to-say/)  
 用于切断/恢复声音的输入, 对我来说蛮有用的:  
@@ -327,8 +327,8 @@ quake-mode 配上你喜欢的任意一个终端, 都会产生非常棒的奇效,
 
 - [space-bar](https://extensions.gnome.org/extension/5090/space-bar/)  
 模仿 I3/Sway/Bspwm 等窗口管理器, 在左上角显示工作区, 有些类似的插件, 但个人认为, 这个插件最好  <br/> 
-![space-bar/名称](/images/gnome/space-bar_name.webp)
-![space-bar/数字](/images/gnome/space-bar_number.webp)
+![space-bar/名称](/images/gnome/space-bar_name.avif)
+![space-bar/数字](/images/gnome/space-bar_number.avif)
 
 <br>
 
@@ -336,7 +336,7 @@ quake-mode 配上你喜欢的任意一个终端, 都会产生非常棒的奇效,
 <!-- - [workspace-switcher-manager](https://extensions.gnome.org/extension/4788/workspace-switcher-manager/) -->
 <!-- 美化通过键盘(我配成了 `Super + 1..9`), 切换工作区时的动画效果, 很赞很好看, 可以高度 DIY   -->
 <!-- >>> **点击展开/隐藏图片** -->
-<!-- ![workspace-switcher-manager](/images/gnome/workspace-switcher-manager.webp) -->
+<!-- ![workspace-switcher-manager](/images/gnome/workspace-switcher-manager.avif) -->
 <!-- >>> -->
 <!--  -->
 <!-- <br> -->
@@ -347,7 +347,7 @@ quake-mode 配上你喜欢的任意一个终端, 都会产生非常棒的奇效,
 - [gsconnect](https://extensions.gnome.org/extension/1319/gsconnect/)  
 GNOME版的 `kdeconnect`, 用于电脑与手机互连 (一个网下), 在右上角菜单添加对应菜单, 以便快速打开  
 手机需安装 `kdeconnect`, 你可以从本博客下载 apk 进行安装: [kdeconnect](/downloads/gnome/kdeconnect.apk)  <br/> 
-![gsconnect](/images/gnome/gsconnect.webp)
+![gsconnect](/images/gnome/gsconnect.avif)
 
 <br>
 
@@ -356,7 +356,7 @@ GNOME版的 `kdeconnect`, 用于电脑与手机互连 (一个网下), 在右上�
 <!-- 用于让面板, 顶栏, Overview, 锁屏, gnome自带的截屏, 甚至特定的app, 都能被毛玻璃化, 很强大的插件   -->
 <!-- 但我并不推荐这个插件, 因为修改的东西太多, 和其他插件一起的话, 有概率发生死机等问题   -->
 <!-- >>> **点击展开/隐藏图片** -->
-<!-- ![blur-my-shell](/images/gnome/overview.webp) -->
+<!-- ![blur-my-shell](/images/gnome/overview.avif) -->
 <!-- >>> -->
 <!--  -->
 <!-- <br> -->
@@ -367,7 +367,7 @@ GNOME版的 `kdeconnect`, 用于电脑与手机互连 (一个网下), 在右上�
 - [gnome40-ui-improvements](https://extensions.gnome.org/extension/4158/gnome-40-ui-improvements/)  
 按下 `Super`, 进入 `Overview` 后, 在中上方显示工作区  
 与下面的插件 `v-shell`  不兼容, 二选一, 我推荐下面的 `v-shell`  <br/> 
-![gnome40-ui-improvements](/images/gnome/gnome40-ui-improvements.webp)
+![gnome40-ui-improvements](/images/gnome/gnome40-ui-improvements.avif)
 
 <br>
 
@@ -375,7 +375,7 @@ GNOME版的 `kdeconnect`, 用于电脑与手机互连 (一个网下), 在右上�
 按下 `Super`, 进入 `Overview` 后, 在左边显示工作区, 同时附赠了各种非常好用的操作  
 当你进入 `Overview` 后, 按下 `space` 后可以查询打开的窗口, `alt+space` 查询最近修改的文件  <br/> 
 与上面的 `gnome40-ui-improvements` 二选一  
-{{ img(src="/images/gnome/overview_44_wave_dark_wallpaper.webp" info="v-shell" scale=0.7) }}
+{{ img(src="/images/gnome/overview_44_wave_dark_wallpaper.avif" info="v-shell" scale=0.7) }}
 
 <br>
 
@@ -393,7 +393,7 @@ GNOME版的 `kdeconnect`, 用于电脑与手机互连 (一个网下), 在右上�
 <!-- 当按下 `Super` 进入 `Overview` 后, 可以按下 `空格键`, 窗口上会出现字母   -->
 <!-- 输入小写字母就切换到对应窗口, 按下 `Shift` 会使字母颜色变红, 此时输入字母会关闭对应窗口   -->
 <!-- >>> **点击展开/隐藏图片** -->
-<!-- ![overview-navigation](/images/gnome/overview-navigation.webp) -->
+<!-- ![overview-navigation](/images/gnome/overview-navigation.avif) -->
 <!-- >>> -->
 <!--  -->
 <!-- <br> -->
@@ -402,7 +402,7 @@ GNOME版的 `kdeconnect`, 用于电脑与手机互连 (一个网下), 在右上�
 <!-- - [cleaner-overview](https://extensions.gnome.org/extension/3759/cleaner-overview/) -->
 <!-- 进入 `Overview` 时, 将窗口排列整齐, 简单实用   -->
 <!-- >>> **点击展开/隐藏图片** -->
-<!-- ![cleaner-overview](/images/gnome/overview-navigation.webp) -->
+<!-- ![cleaner-overview](/images/gnome/overview-navigation.avif) -->
 <!-- >>> -->
 <!--  -->
 <!-- <br> -->
@@ -429,8 +429,8 @@ gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"
 
 {% code(info="分别设置明暗主题下的壁纸") %}
 ```bash
-gsettings set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/aaa.webp'
-gsettings set org.gnome.desktop.background picture-uri-dark 'file:///usr/share/backgrounds/aaa.webp'
+gsettings set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/aaa.avif'
+gsettings set org.gnome.desktop.background picture-uri-dark 'file:///usr/share/backgrounds/aaa.avif'
 ```
 {% end %}
 
@@ -738,7 +738,7 @@ imports = [
 {% code(path="nixpkgs/dconf.nix" info="对于壁纸, 修改 `dconf.nix` 中的 `picture-uri`") %}
 ```nix
 "org/gnome/desktop/background" =
-let picture = ../.background.webp; in
+let picture = ../.background.avif; in
 {
   picture-uri = "file://${picture}";
   picture-uri-dark = "file://${picture}";

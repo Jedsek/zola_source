@@ -71,10 +71,9 @@ Haskell, 是一门静态强类型, 惰性求值, 简易并发, 纯函数式的�
 
 ## 桌面美化
 关于桌面美化的一些文章, 大家可以参考一下  
-[目录~~>](/categories/desktop-beautify)
 
 - [x] [GNOME 入坑指南](/posts/desktop-beautify/gnome)
-- [ ] [Hyprland 入坑指南](/posts/desktop-beautify/hyprland)
+- [ ] [niri-wm 入坑指南](/posts/desktop-beautify/niri-wm)
 
 ## void-linux
 
