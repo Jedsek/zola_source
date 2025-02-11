@@ -77,7 +77,7 @@ Haskell, 是一门静态强类型, 惰性求值, 简易并发, 纯函数式的�
 
 ## void-linux
 
-- [ ] [void-linux 安装与配置](/posts/void-linux-installation-and-configuration)
+- [ ] [void-linux 备忘录](/posts/void-linux-cheatsheet) (安装, 配置, 打包教程等)  
 
 - - -
 
