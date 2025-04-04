@@ -6,6 +6,13 @@ template = "index.html"
 RSS --> [atom.xml](/atom.xml)  
 该网站暂时只保证 PC 端的浏览体验 ~~(手机端适配好麻烦呜呜呜)~~  
 请随意瞎点进行探索吧! 可能会有 **惊喜** 哦~  
+**注意: 该博客目前正在基于 rust && [dioxus](https://dioxuslabs.com/) 进行重写: [传送门](https://github.com/Jedsek/ferlora)**
+
+ <details>
+  <summary>新博客的设计图片如下(其实是动态的哦!)</summary>
+  <img src="https://github.com/Jedsek/ferlora/raw/main/screenshots/dev_1.webp")>
+</details>
+
 
 <br>
 

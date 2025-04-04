@@ -10,6 +10,9 @@
 <link rel="stylesheet" type="text/css" href="/iconfonts/iconfont.css" />
 <link rel="stylesheet" type="text/css" href="/styles/custom/tailwind.css" />
 <link rel="stylesheet" type="text/css" href="/styles/custom/style.css" />
+<link rel="stylesheet" type="text/css" href="/fonts/MapleMono-NF-CN-Regular/result.css" />
+<link rel="stylesheet" type="text/css" href="/fonts/MapleMono-NF-CN-Italic/result.css" />
+<link rel="stylesheet" type="text/css" href="/fonts/MapleMono-NF-CN-Bold/result.css" />
 <link rel="stylesheet" type="text/css" href="/styles/custom/highlight_themes/atom-one-dark.css" />
 <script src="/scripts/custom/pjax.js"> </script>
 <script src="/scripts/custom/pwa_install.js"> </script>
@@ -75,7 +78,7 @@
 <div class="max-w-40 m-auto hover:scale-110 hover:opacity-60 hover:duration-100 hover:translate-x-2 hover:-translate-y-2 py-1"> 
 	<a class="no-underline flex" href={{href}} onclick="notify_send('{{notification}}', 2000)">
 		<i class="iconfont icon-{{iconfont}} left mx-3"></i>
-		<span class="iconfont mx-auto">{{text}}</span>
+		<span class="text-3xl mx-auto">{{text}}</span>
 	</a>
 </div>
 {% endmacro  %}

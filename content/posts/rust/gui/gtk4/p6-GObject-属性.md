@@ -166,7 +166,6 @@ cargo add once_cell
 你会看见 `ParamSpec` 这样的类型, 其来自于 `glib`, 按照相应的 [文档](https://gtk-rs.org/gtk-rs-core/stable/latest/docs/glib/struct.ParamSpec.html) 所述, 是一个struct, 封装了指定参数所需的元数据  
 如果将C语言的描述, 换成了看起来稍微轻松一些的rust版本, 它差不多长这样:  
 
-{% end %}
 ```rust
 struct ParamSpec<'a> {
     name: &'a str,             // 属性的名称, 按照 `kebab-case`
@@ -177,7 +176,6 @@ struct ParamSpec<'a> {
     // more
 }
 ```
-{% end %}
 
 比如代码中出现的 `ParamSpecInt`, 就是基于 `ParamSpec` 的基础上, 指定了 `value_type`  
 
